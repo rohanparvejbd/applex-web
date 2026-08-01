@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-Process *)",
+      "PowerShell(npm run *)",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3000/\" -UseBasicParsing -TimeoutSec 30; Write-Host \"STATUS:\" $r.StatusCode; Write-Host \"LENGTH:\" $r.Content.Length; $hasApple = $r.Content -match \"Apple Collection|category_id|product\"; Write-Host \"Contains data markers:\" $hasApple } catch { Write-Host \"ERROR:\" $_.Exception.Message })",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3000/\" -UseBasicParsing -TimeoutSec 30; Write-Host \"STATUS:\" $r.StatusCode } catch { Write-Host \"ERROR:\" $_.Exception.Message })"
+    ]
+  }
+}
