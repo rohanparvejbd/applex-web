@@ -36,7 +36,7 @@ export default function NewArrivals({ products = [] }) {
                 </div>
                 <div ref={scrollRef} className="flex gap-3 overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] py-3 -my-3">
                     {products.map((product) => (
-                        <div key={product.id} className="flex-none w-[calc(20%-10px)] rounded-xl overflow-hidden border border-gray-200 [box-shadow:0_6px_10px_-2px_rgba(0,0,0,0.08)] h-[320px]">
+                        <div key={product.id} className="flex-none w-[calc(50%-6px)] sm:w-[calc(33.333%-8px)] md:w-[calc(25%-9px)] lg:w-[calc(20%-10px)] rounded-xl overflow-hidden border border-gray-200 [box-shadow:0_6px_10px_-2px_rgba(0,0,0,0.08)] h-[280px] md:h-[320px]">
                             <ProductCard product={product} variant="default" className="!border-0 !rounded-none !shadow-none hover:!shadow-none" />
                         </div>
                     ))}

@@ -27,10 +27,7 @@ export default function UsedPhones({ products = [] }) {
 
     const handleFilter = async (id) => {
         setActive(id);
-        if (!id) {
-            setFiltered(products);
-            return;
-        }
+        if (!id) { setFiltered(products); return; }
         setLoading(true);
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API}/public/subcategorywise-products/${id}`);
@@ -55,28 +52,20 @@ export default function UsedPhones({ products = [] }) {
                 };
             });
             setFiltered(mapped);
-        } catch {
-            setFiltered([]);
-        }
+        } catch { setFiltered([]); }
         setLoading(false);
     };
 
     return (
         <section className="w-full py-6 md:py-8">
             <div className="max-w-[1248px] mx-auto px-4 md:px-0">
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-[48px] font-bold tracking-tight">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-[36px] md:text-[48px] font-bold tracking-tight shrink-0">
                         <span className="text-gray-900">Used </span>
                         <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">iPhones</span>
                     </h2>
-                    <div className="flex items-center gap-3 flex-wrap justify-end flex-1 mx-6">
-                        {SERIES.map((s) => (
-                            <button key={s.id} onClick={() => handleFilter(s.id)} className={`px-5 py-2 text-[14px] font-medium rounded-full border transition-all duration-200 ${active === s.id ? 'bg-black text-white border-black' : 'bg-white text-gray-600 border-gray-200 hover:bg-black hover:text-white hover:border-black'}`}>
-                                {s.label}
-                            </button>
-                        ))}
-                    </div>
-                    <div className="flex items-center gap-2">
+                    <div className="hidden md:flex items-center gap-2 ml-4">
                         <button onClick={() => scroll('prev')} className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors">
                             <FiChevronLeft className="w-4 h-4" />
                         </button>
@@ -85,15 +74,26 @@ export default function UsedPhones({ products = [] }) {
                         </button>
                     </div>
                 </div>
+
+                {/* Filter buttons - horizontal scroll on mobile */}
+                <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] mb-4 pb-1">
+                    {SERIES.map((s) => (
+                        <button key={s.id} onClick={() => handleFilter(s.id)} className={`flex-none px-4 py-1.5 text-[13px] font-medium rounded-full border transition-all duration-200 ${active === s.id ? 'bg-black text-white border-black' : 'bg-white text-gray-600 border-gray-200 hover:bg-black hover:text-white hover:border-black'}`}>
+                            {s.label}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Products */}
                 {loading ? (
                     <div className="flex gap-3 py-3">
-                        {[1,2,3,4,5].map(i => <div key={i} className="flex-none w-[calc(20%-10px)] h-[320px] rounded-xl bg-gray-100 animate-pulse" />)}
+                        {[1,2,3,4,5].map(i => <div key={i} className="flex-none w-[calc(50%-6px)] md:w-[calc(20%-10px)] h-[280px] md:h-[320px] rounded-xl bg-gray-100 animate-pulse" />)}
                     </div>
                 ) : (
                     <div ref={scrollRef} className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] py-3 -my-3">
                         {filtered.map((product) => (
-                            <div key={product.id} className="flex-none w-[calc(20%-10px)] rounded-xl overflow-hidden border border-gray-200 h-[320px]">
-                                <ProductCard product={product} variant="default" className="!border-0 !rounded-none !shadow-none hover:!shadow-none" />
+                            <div key={product.id} className="flex-none w-[calc(50%-6px)] md:w-[calc(20%-10px)] rounded-xl overflow-hidden border border-gray-200 h-[280px] md:h-[320px]">
+                                <ProductCard product={product} variant="default" showUsedTag={true} className="!border-0 !rounded-none !shadow-none hover:!shadow-none" />
                             </div>
                         ))}
                     </div>

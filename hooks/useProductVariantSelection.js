@@ -73,7 +73,7 @@ function imeiMatchesPartial(imei, partial) {
 
 const normalizeTaka = (value) => {
     if (value === null || value === undefined || value === '') return '';
-    const raw = String(value).replace(/à§³/g, '\u09F3').trim();
+    const raw = String(value).replace(/├á┬º┬│/g, '\u09F3').trim();
     if (!raw) return '';
     if (raw.startsWith('\u09F3')) return raw.replace(/^\u09F3\s*/, '\u09F3');
     const numericPart = raw.replace(/[^\d.,]/g, '');

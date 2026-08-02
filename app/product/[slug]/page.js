@@ -41,7 +41,7 @@ function mapSeedProductForPdp(seed) {
             name: seed.brand?.name || seed.brand_name || (typeof seed.brand === 'string' ? seed.brand : null),
             image: seed.brand?.image || null,
         },
-        price: seed.price || `৳ ${priceNumber.toLocaleString('en-IN')}`,
+        price: seed.price || `αº│ ${priceNumber.toLocaleString('en-IN')}`,
         rawPrice: priceNumber,
         originalPrice: originalPriceFromOld,
         oldPrice: seed.oldPrice || null,
@@ -166,7 +166,7 @@ export default function ProductDetailsPage() {
                 const discountLabel = hasDiscount
                     ? discountType === 'percentage'
                         ? `-${discountValue}%`
-                        : `৳ ${discountValue.toLocaleString('en-IN')}`
+                        : `αº│ ${discountValue.toLocaleString('en-IN')}`
                     : null;
 
                 const images =
@@ -200,11 +200,11 @@ export default function ProductDetailsPage() {
                         name: p.brand_name || p.brands?.name || null,
                         image: p.brand_image || p.brands?.image || null,
                     },
-                    price: `৳ ${price.toLocaleString('en-IN')}`,
+                    price: `αº│ ${price.toLocaleString('en-IN')}`,
                     rawPrice: price,
                     originalPrice,
                     oldPrice: hasDiscount
-                        ? `৳ ${originalPrice.toLocaleString('en-IN')}`
+                        ? `αº│ ${originalPrice.toLocaleString('en-IN')}`
                         : null,
                     discount: discountLabel,
                     discountValue,
@@ -243,7 +243,7 @@ export default function ProductDetailsPage() {
                             return {
                                 id: rp.id,
                                 name: rp.name,
-                                price: `৳ ${rpPrice.toLocaleString('en-IN')}`,
+                                price: `αº│ ${rpPrice.toLocaleString('en-IN')}`,
                                 oldPrice: null,
                                 discount: null,
                                 imageUrl: (rp.image_path || rp.image_path1 || rp.image_path2 || '/no-image.svg')?.toString().trim(),

@@ -33,7 +33,7 @@ function RelatedProductsCarousel({ products }) {
                 className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             >
                 {products.map((product) => (
-                    <div key={product.id} className="flex-none w-[calc(16.666%-10px)]">
+                    <div key={product.id} className="flex-none w-[calc(50%-6px)] sm:w-[calc(33.333%-8px)] md:w-[calc(16.666%-10px)]">
                         <ProductCard product={product} variant="default" />
                     </div>
                 ))}
@@ -41,7 +41,7 @@ function RelatedProductsCarousel({ products }) {
             {canScrollLeft && (
                 <button
                     onClick={() => scroll('prev')}
-                    className="absolute left-2 top-[130px] md:top-[140px] -translate-y-1/2 w-9 h-9 rounded-full bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-all z-10 shadow-md"
+                    className="hidden md:flex absolute left-2 top-[130px] md:top-[140px] -translate-y-1/2 w-9 h-9 rounded-full bg-black text-white items-center justify-center hover:bg-gray-800 transition-all z-10 shadow-md"
                 >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6"/></svg>
                 </button>
@@ -49,7 +49,7 @@ function RelatedProductsCarousel({ products }) {
             {canScrollRight && (
                 <button
                     onClick={() => scroll('next')}
-                    className="absolute right-2 top-[130px] md:top-[140px] -translate-y-1/2 w-9 h-9 rounded-full bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-all z-10 shadow-md"
+                    className="hidden md:flex absolute right-2 top-[130px] md:top-[140px] -translate-y-1/2 w-9 h-9 rounded-full bg-black text-white items-center justify-center hover:bg-gray-800 transition-all z-10 shadow-md"
                 >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
                 </button>

@@ -63,12 +63,12 @@ export default function ShopCategories({ categories = [], flashSaleProducts = []
                 </div>
 
                 {/* Category Card Grid - 4 per row on mobile */}
-                <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 border border-gray-200 divide-x divide-y divide-gray-200 rounded-xl overflow-hidden">
+                <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 rounded-lg overflow-hidden border border-gray-200">
                     {categories.map((cat, idx) => (
                         <Link
                             key={cat.id ? `cat-${cat.id}-${idx}` : `cat-fallback-${idx}`}
                             href={`/category/${cat.slug || cat.name?.toLowerCase().replace(/\s+/g, '-') || 'unknown'}`}
-                            className="group flex flex-col h-full transition-all duration-300 bg-white hover:bg-gray-50 !text-black no-underline"
+                            className={`group flex flex-col h-full transition-all duration-300 bg-white hover:bg-gray-50 !text-black no-underline ${idx >= 6 ? 'hidden md:flex' : ''}`}
                         >
                             {/* Card Body - Content centered */}
                             <div className="flex-1 flex flex-col items-center justify-center p-1.5 md:p-3 min-h-[60px] md:min-h-[90px]">
@@ -95,13 +95,12 @@ export default function ShopCategories({ categories = [], flashSaleProducts = []
                 </div>
 
                 <div className="flex justify-center mt-4 mb-8">
-                    <Link href="/categories" className="text-[12px] font-bold text-gray-500 hover:bg-black hover:text-white hover:border-black px-6 py-2 border border-gray-200 rounded-full uppercase tracking-widest transition-all font-[family-name:var(--font-outfit)]">
+                    <Link href="/categories" className="text-[9px] font-bold text-gray-500 hover:bg-black hover:text-white hover:border-black px-3 py-1 border border-gray-200 rounded-full uppercase tracking-widest transition-all font-[family-name:var(--font-outfit)] md:text-[12px] md:px-6 md:py-2">
                         See All
                     </Link>
                 </div>
 
                 {/* Mobile-only: between categories and flash deals */}
-                <ServiceHighlightsStrip className="md:hidden mb-6" />
 
                 {/* Flash Sale — stacked sections with gap (header / each row / CTA separate) */}
                 {flashSaleProducts.length > 0 && (() => {
@@ -146,9 +145,9 @@ export default function ShopCategories({ categories = [], flashSaleProducts = []
                             {/* One card per product row (5 per row on large screens) */}
                             {rows.map((row, rowIdx) => (
                                 <div key={`flash-row-${rowIdx}`}>
-                                    <div className="grid grid-cols-6 gap-2 md:gap-3">
+                                    <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] md:grid md:grid-cols-6 md:overflow-visible">
                                         {row.map((product, idx) => (
-                                            <div key={product.id ?? `${rowIdx}-${idx}`} className="transition-transform duration-300 hover:scale-[1.02]">
+                                            <div key={product.id ?? `${rowIdx}-${idx}`} className="flex-none w-[calc(50%-4px)] md:w-auto transition-transform duration-300 hover:scale-[1.02]">
                                                 <ProductCard product={product} variant="default" />
                                             </div>
                                         ))}
@@ -156,14 +155,6 @@ export default function ShopCategories({ categories = [], flashSaleProducts = []
                                 </div>
                             ))}
 
-                            <div className="flex justify-center">
-                                <Link
-                                    href="/special-offers"
-                                    className="rounded-full border border-gray-300 bg-white px-6 py-2 text-[12px] font-medium text-gray-600 transition-all hover:bg-black hover:text-white hover:border-black"
-                                >
-                                    See More
-                                </Link>
-                            </div>
                         </div>
                     );
                 })()}
@@ -171,4 +162,22 @@ export default function ShopCategories({ categories = [], flashSaleProducts = []
         </section>
     );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

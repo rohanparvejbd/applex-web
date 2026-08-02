@@ -50,10 +50,10 @@ export default function PremiumProductCard({ product, variant = 'default', showU
             href={`/product/${slug}`}
             onClick={seedProductDetails}
             className={`group relative flex flex-col overflow-hidden border border-gray-200 ${isDeal ? '' : 'bg-white'} transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
-                isCompact ? 'h-[176px] rounded-lg' : isDeal ? 'h-full rounded-xl' : 'h-[260px] md:h-[280px] rounded-xl'
+                isCompact ? 'h-[176px] rounded-lg' : isDeal ? 'h-full rounded-xl' : 'h-[220px] sm:h-[240px] md:h-[280px] rounded-xl'
             } ${className}`}
         >
-            <div className={`relative w-full bg-white ${isCompact ? 'h-[108px]' : isDeal ? 'aspect-[1/1]' : 'h-[200px] md:h-[220px]'}`}>
+            <div className={`relative w-full bg-white ${isCompact ? 'h-[108px]' : isDeal ? 'aspect-[1/1]' : 'h-[150px] sm:h-[170px] md:h-[220px]'}`}>
                 <Image
                     src={(product.imageUrl || product.image_path || product.image || "/no-image.svg")?.toString().trim()}
                     alt={product.name || 'Product'}
