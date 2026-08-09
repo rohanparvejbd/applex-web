@@ -124,11 +124,17 @@ export function useProductVariantSelection(product, { onVariantImageChange } = {
         return [...new Set(imeis.map((i) => i.battery_life).filter(Boolean))];
     }, [imeis, isUsedPhoneProduct]);
 
+    const allBoxStatuses = useMemo(() => {
+        if (!isUsedPhoneProduct) return [];
+        return [...new Set(imeis.map((i) => i.box_status).filter(Boolean))];
+    }, [imeis, isUsedPhoneProduct]);
+
     const [selectedColor, setSelectedColor] = useState(null);
     const [selectedModel, setSelectedModel] = useState(null);
     const [selectedStorage, setSelectedStorage] = useState(null);
     const [selectedBattery, setSelectedBattery] = useState(null);
     const [selectedRegion, setSelectedRegion] = useState(null);
+    const [selectedBoxStatus, setSelectedBoxStatus] = useState(null);
 
     useEffect(() => {
         if (!product?.id) return;
@@ -138,6 +144,7 @@ export function useProductVariantSelection(product, { onVariantImageChange } = {
         setSelectedStorage(null);
         setSelectedBattery(null);
         setSelectedRegion(null);
+        setSelectedBoxStatus(null);
     }, [product?.id, allColors]);
 
     useEffect(() => {
@@ -464,6 +471,7 @@ export function useProductVariantSelection(product, { onVariantImageChange } = {
         allStorages,
         allBatteries,
         allRegions,
+        allBoxStatuses,
         availableModels,
         availableStorages,
         availableBatteries,
@@ -478,6 +486,8 @@ export function useProductVariantSelection(product, { onVariantImageChange } = {
         setSelectedBattery,
         selectedRegion,
         setSelectedRegion,
+        selectedBoxStatus,
+        setSelectedBoxStatus,
         matchedImei,
         variantListPriceNumber,
         currentPriceNumber,

@@ -1,77 +1,47 @@
 "use client";
-
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { FiMessageCircle, FiShuffle, FiX } from "react-icons/fi";
-import { FaWhatsapp, FaFacebookMessenger } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
 const WHATSAPP_URL = "https://wa.me/8801980803060";
-const MESSENGER_URL = "https://www.facebook.com/Applex.bd";
+
+const AGENT_IMAGES = ["/customer-service.png"];
 
 export default function FloatingQuickActions() {
-  const [isOpen, setIsOpen] = useState(false);
-  const wrapperRef = useRef(null);
+  const [currentImg, setCurrentImg] = useState(0);
 
   useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => document.removeEventListener("mousedown", handleOutsideClick);
+    const interval = setInterval(() => {
+      setCurrentImg((prev) => (prev + 1) % AGENT_IMAGES.length);
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <div
-      ref={wrapperRef}
-      className="fixed right-2 top-[72%] -translate-y-1/2 z-[55] flex flex-col items-end gap-2 md:right-3 md:top-[70%]"
+    <a
+      href={WHATSAPP_URL}
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Chat on WhatsApp"
+      className="fixed right-4 bottom-6 z-[55]"
     >
-      <Link
-        href="/compare"
-        aria-label="Compare Products"
-        className="h-[112px] w-10 rounded-full bg-[#ff8a00] text-white shadow-lg shadow-[#ff8a00]/30 border border-[#ffb347] hover:bg-[#ea7f00] transition-colors flex flex-col items-center justify-center"
-      >
-        <FiShuffle className="w-4 h-4 mb-1" />
-        <span className="[writing-mode:vertical-rl] rotate-180 text-[10px] font-semibold tracking-[0.08em] uppercase leading-none">
-          Compare
-        </span>
-      </Link>
+      <div className="relative w-14 h-14">
+        {/* Agent image */}
+        <div className="w-14 h-14 rounded-full overflow-hidden shadow-lg relative ring-2 ring-white ring-offset-2 ring-offset-gray-100">
+          {AGENT_IMAGES.map((img, idx) => (
+            <img
+              key={idx}
+              src={img}
+              alt="Support Agent"
+              className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-700 ${idx === currentImg ? 'opacity-100' : 'opacity-0'}`}
+            />
+          ))}
+        </div>
 
-      <div className="relative">
-        {isOpen && (
-          <div className="absolute right-12 bottom-0 bg-white border border-gray-200 rounded-xl shadow-xl p-1.5 flex flex-col gap-1 min-w-[150px]">
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-semibold text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
-            >
-              <FaWhatsapp className="w-4 h-4 text-green-600" />
-              WhatsApp
-            </a>
-            <a
-              href={MESSENGER_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
-            >
-              <FaFacebookMessenger className="w-4 h-4 text-blue-600" />
-              Messenger
-            </a>
-          </div>
-        )}
-
-        <button
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-          aria-label={isOpen ? "Close messaging options" : "Open messaging options"}
-          className="h-11 w-11 rounded-full bg-[#ff8a00] text-white shadow-lg shadow-[#ff8a00]/30 border border-[#ffb347] hover:bg-[#ea7f00] transition-colors flex items-center justify-center"
-        >
-          {isOpen ? <FiX className="w-5 h-5" /> : <FiMessageCircle className="w-5 h-5" />}
-        </button>
+        {/* Online dot only */}
+        <div className="absolute top-0 right-0 w-3 h-3 rounded-full bg-green-400 border-2 border-white" />
       </div>
-    </div>
+    </a>
   );
 }
+
+
+

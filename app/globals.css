@@ -1,5 +1,30 @@
 @import "tailwindcss";
 
+/* ── Smooth Scrolling & Performance ── */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  will-change: auto;
+}
+
+/* Reduce layout shift */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @theme {
   /* ── Marketplace Brand Colors ── */
   --color-brand-blue: #2563eb;

@@ -49,7 +49,7 @@ function FlashSaleCountdown() {
     );
 }
 
-export default function ShopCategories({ categories = [], flashSaleProducts = [] }) {
+export default function ShopCategories({ flashSaleBanner = null, categories = [], flashSaleProducts = [] }) {
     return (
         <section className="w-full bg-transparent pt-6 pb-8">
             <div className="max-w-[1248px] mx-auto px-4 md:px-0">
@@ -113,17 +113,22 @@ export default function ShopCategories({ categories = [], flashSaleProducts = []
                     return (
                         <div className="flex flex-col gap-4">
                             {/* Header — own card (overflow visible so badge image can hang past the edge) */}
-                            <div className="relative overflow-visible rounded-lg border border-[#f0e0d4] shadow-[0_8px_30px_rgba(15,23,42,0.06)] flex items-center min-h-[104px] md:min-h-[128px]">
+                            <div className="relative overflow-visible rounded-lg border border-[#f0e0d4] shadow-[0_8px_30px_rgba(15,23,42,0.06)] flex items-center min-h-[40px] md:min-h-[56px]">
                                 {/* Video background */}
                                 <div className="absolute inset-0 w-full h-full overflow-hidden rounded-lg">
-                                    <video 
-                                        src="/flash_vid.mp4" 
-                                        autoPlay 
-                                        muted 
-                                        loop 
-                                        playsInline 
-                                        className="absolute inset-0 w-full h-full object-cover"
-                                    />
+                                    {flashSaleBanner?.image ? (
+                                        <img
+                                            src={flashSaleBanner.image.startsWith('http') ? flashSaleBanner.image : `${process.env.NEXT_PUBLIC_IMAGE_URL}/${flashSaleBanner.image}`}
+                                            alt="Flash Sale"
+                                            className="absolute inset-0 w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <img
+                                            src="/flash-sale.png"
+                                            alt="Flash Sale"
+                                            className="absolute inset-0 w-full h-full object-cover"
+                                        />
+                                    )}
                                 </div>
 
                                 <div className="relative z-10 flex flex-wrap items-center gap-2 overflow-visible pl-1 md:gap-4 md:pl-2">
@@ -162,6 +167,9 @@ export default function ShopCategories({ categories = [], flashSaleProducts = []
         </section>
     );
 }
+
+
+
 
 
 

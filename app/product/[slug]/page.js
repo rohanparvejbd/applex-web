@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import ProductGallery from '../../../components/Product/ProductGallery';
@@ -212,6 +212,7 @@ export default function ProductDetailsPage() {
                     hasDiscount,
                     videoUrl: p.video_url || p.video || '',
                     images,
+                    imeiImages: Array.isArray(p.imei_image) ? p.imei_image.filter(Boolean) : [],
                     rawImeis,
                     description: p.description || '',
                     specifications: apiSpecifications,
@@ -243,7 +244,7 @@ export default function ProductDetailsPage() {
                             return {
                                 id: rp.id,
                                 name: rp.name,
-                                price: `αº│ ${rpPrice.toLocaleString('en-IN')}`,
+                                price: `৳${rpPrice.toLocaleString('en-IN')}`,
                                 oldPrice: null,
                                 discount: null,
                                 imageUrl: (rp.image_path || rp.image_path1 || rp.image_path2 || '/no-image.svg')?.toString().trim(),
@@ -314,18 +315,55 @@ export default function ProductDetailsPage() {
                 .replace(/\b\w/g, (ch) => ch.toUpperCase())
             : 'Product');
 
-    // Determine which images to show in gallery
-    const galleryImages = variantImages && variantImages.length > 0
-        ? variantImages
-        : productData?.images;
     const normalizedProductCategorySlug = String(productData?.category?.slug || '').toLowerCase();
     const normalizedProductCategoryName = String(productData?.category?.name || '').toLowerCase();
     const isUsedPhoneProduct =
         normalizedProductCategorySlug === 'used-phone' ||
         normalizedProductCategoryName === 'used phone';
 
+    // Determine which images to show in gallery
+    const allVariantImages = useMemo(() => {
+        if (!isUsedPhoneProduct) return null;
+
+        // Use imei_image array from API (color-specific images)
+        const imeiImages = productData?.imeiImages || [];
+        if (imeiImages.length > 0) return imeiImages;
+
+        // Fallback: unique image_paths from rawImeis
+        const imeiImgs = (productData?.rawImeis || [])
+            .map(i => i.image_path)
+            .filter(Boolean);
+        if (imeiImgs.length > 0) return [...new Set(imeiImgs)];
+
+        return productData?.images?.length > 1 ? productData.images : null;
+    }, [isUsedPhoneProduct, productData?.rawImeis, productData?.images, productData?.imeiImages]);
+
+    const galleryImages = variantImages && variantImages.length > 0
+        ? variantImages
+        : allVariantImages && allVariantImages.length > 0
+        ? allVariantImages
+        : productData?.images;
+
+    const handleVariantImageChange = useCallback((imgs) => {
+        if (isUsedPhoneProduct) {
+            const allImeiImgs = productData?.imeiImages || [];
+            if (imgs && imgs.length > 0 && allImeiImgs.length > 0) {
+                const selectedFirst = [
+                    ...imgs,
+                    ...allImeiImgs.filter(img => !imgs.includes(img))
+                ];
+                setVariantImages(prev => {
+                    if (JSON.stringify(prev) === JSON.stringify(selectedFirst)) return prev;
+                    return selectedFirst;
+                });
+            }
+        } else {
+            setVariantImages(imgs);
+        }
+    }, [isUsedPhoneProduct, productData?.imeiImages]);
+
     const variantSelection = useProductVariantSelection(productData || {}, {
-        onVariantImageChange: setVariantImages,
+        onVariantImageChange: handleVariantImageChange,
     });
 
     const showUsedPhonePicker =

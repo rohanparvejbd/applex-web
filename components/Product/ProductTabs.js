@@ -137,7 +137,7 @@ export default function ProductTabs({ description, specifications, videoUrl, rec
                             className="animate-in fade-in slide-in-from-bottom-2 duration-500 px-2 md:px-4 py-2 w-full overflow-hidden break-words"
                         >
                             <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-8 tracking-tight font-[family-name:var(--font-outfit)]">Description</h3>
-                            <div className="prose prose-blue max-w-none text-gray-600 leading-relaxed md:leading-loose w-full overflow-hidden break-words">
+                            <div className="prose prose-blue max-w-none text-gray-600 leading-relaxed md:leading-loose w-full overflow-hidden break-words font-[family-name:var(--font-outfit)]">
                                 <div 
                                     className="w-full overflow-hidden break-words [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-6 [&>h2]:text-2xl [&>h2]:font-black [&>h2]:mb-6 [&>h3]:text-xl [&>h3]:font-black [&>h3]:mb-4 [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-3xl [&_img]:my-10 [&_img]:mx-auto [&_img]:shadow-lg [&_*]:max-w-full [&_*]:break-words"
                                     dangerouslySetInnerHTML={{ __html: description || '<p>No detailed description available yet.</p>' }} 

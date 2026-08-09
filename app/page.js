@@ -1,4 +1,5 @@
 import Hero from "../components/Hero/Hero";
+import SEOContent from "../components/Footer/SEOContent";
 import ShopCategories from "../components/ShopCategories/ShopCategories";
 import NewArrivals from "../components/NewArrivals/NewArrivals";
 import PromoBanners from "../components/PromoBanners/PromoBanners";
@@ -150,7 +151,7 @@ export default async function Home() {
   const apiSliders = rawSliders ? rawSliders.flatMap(mapSliderData) : null;
 
   const apiBanners = normalizeBannerResponse(bannersRes);
-  const { heroSide: heroSideBanners, midPromo: midPromoBanners, bottomPromo: bottomPromoBanners } =
+  const { heroSide: heroSideBanners, midPromo: midPromoBanners, bottomPromo: bottomPromoBanners, flashSale: flashSaleBanners } =
     splitBannersForHome(apiBanners);
 
   const rawCategories = extractDataArrayLocal(categoriesRes);
@@ -189,7 +190,7 @@ export default async function Home() {
   return (
     <div className="bg-transparent">
       <Hero slides={apiSliders ?? []} banners={heroSideBanners} />
-      <ShopCategories categories={apiCategories ?? []} flashSaleProducts={flashSaleProducts} />
+      <ShopCategories flashSaleBanner={flashSaleBanners?.[0] ?? null} categories={apiCategories ?? []} flashSaleProducts={flashSaleProducts} />
       <BrandsMarquee brands={apiBrands} />
       <PromoBanners banners={midPromoBanners} />
       <UsedPhones products={apiUsedPhones ?? []} />
@@ -202,6 +203,7 @@ export default async function Home() {
         newArrivals={apiNewArrivals ?? []}
         flashDeals={apiBestDeals ?? []}
       />
+      <SEOContent />
     </div>
   );
 }

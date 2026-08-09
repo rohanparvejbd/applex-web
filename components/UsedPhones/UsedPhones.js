@@ -59,29 +59,27 @@ export default function UsedPhones({ products = [] }) {
     return (
         <section className="w-full py-6 md:py-8">
             <div className="max-w-[1248px] mx-auto px-4 md:px-0">
-                {/* Header */}
-                <div className="flex items-center justify-between mb-4">
+                {/* Header + Filter buttons একসাথে */}
+                <div className="flex items-center justify-between mb-4 gap-4">
                     <h2 className="text-[36px] md:text-[48px] font-bold tracking-tight shrink-0">
                         <span className="text-gray-900">Used </span>
                         <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">iPhones</span>
                     </h2>
-                    <div className="hidden md:flex items-center gap-2 ml-4">
-                        <button onClick={() => scroll('prev')} className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors">
-                            <FiChevronLeft className="w-4 h-4" />
-                        </button>
-                        <button onClick={() => scroll('next')} className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors">
-                            <FiChevronRight className="w-4 h-4" />
-                        </button>
+                    <div className="flex items-center gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                        {SERIES.map((s) => (
+                            <button key={s.id} onClick={() => handleFilter(s.id)} className={`flex-none px-4 py-1.5 text-[13px] font-medium rounded-full border transition-all duration-200 ${active === s.id ? 'bg-black text-white border-black' : 'bg-white text-gray-600 border-gray-200 hover:bg-black hover:text-white hover:border-black'}`}>
+                                {s.label}
+                            </button>
+                        ))}
+                        <div className="hidden md:flex items-center gap-2 ml-2 shrink-0">
+                            <button onClick={() => scroll('prev')} className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors">
+                                <FiChevronLeft className="w-4 h-4" />
+                            </button>
+                            <button onClick={() => scroll('next')} className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors">
+                                <FiChevronRight className="w-4 h-4" />
+                            </button>
+                        </div>
                     </div>
-                </div>
-
-                {/* Filter buttons - horizontal scroll on mobile */}
-                <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] mb-4 pb-1">
-                    {SERIES.map((s) => (
-                        <button key={s.id} onClick={() => handleFilter(s.id)} className={`flex-none px-4 py-1.5 text-[13px] font-medium rounded-full border transition-all duration-200 ${active === s.id ? 'bg-black text-white border-black' : 'bg-white text-gray-600 border-gray-200 hover:bg-black hover:text-white hover:border-black'}`}>
-                            {s.label}
-                        </button>
-                    ))}
                 </div>
 
                 {/* Products */}

@@ -13,16 +13,16 @@ export default function ProductGallery({ images = [], showUsedTag = false }) {
 
     // When images prop changes (e.g., variant color selected), reset to first image
     useEffect(() => {
-        if (imageArray.length > 0) {
-            setMainImage(imageArray[0]);
+        if (images && images.length > 0) {
+            setMainImage(images[0]);
         }
-    }, [images]);
+    }, [images?.join(',')]);
 
     return (
         <div className="flex flex-col gap-4">
             {/* Main Image Container */}
             <div
-                className={`flex-1 aspect-square relative bg-[#f5f5f5] rounded-2xl border border-gray-100 overflow-hidden flex items-center justify-center p-4 ${isZooming ? 'cursor-zoom-out' : 'cursor-zoom-in'}`}
+                className={`flex-1 aspect-square relative bg-white rounded-lg border border-gray-200 overflow-hidden flex items-center justify-center p-4 ${isZooming ? 'cursor-zoom-out' : 'cursor-zoom-in'}`}
                 onMouseEnter={() => setIsZooming(true)}
                 onMouseLeave={() => {
                     setIsZooming(false);
@@ -61,24 +61,42 @@ export default function ProductGallery({ images = [], showUsedTag = false }) {
             </div>
 
             {/* Thumbnail Strip (Always Bottom) */}
-            <div className="flex flex-row gap-3 overflow-x-auto pb-2 no-scrollbar shrink-0">
-                {imageArray.map((img, idx) => (
-                    <button
-                        key={idx}
-                        onClick={() => setMainImage(img)}
-                        className={`relative w-[72px] h-[72px] md:w-[92px] md:h-[92px] aspect-square shrink-0 rounded-xl border-2 overflow-hidden bg-[#f5f5f5] transition-all ${
-                            mainImage === img ? 'border-blue-600 shadow-lg shadow-blue-500/10' : 'border-gray-100 hover:border-gray-200'
-                        }`}
-                    >
-                        <Image
-                            src={img}
-                            alt={`Thumbnail ${idx + 1}`}
-                            fill
-                            unoptimized
-                            className="object-contain p-2"
-                        />
-                    </button>
-                ))}
+            <div className="relative">
+                <button
+                    onClick={() => {
+                        document.getElementById('thumb-strip').scrollBy({ left: -200, behavior: 'smooth' });
+                    }}
+                    className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 w-7 h-7 bg-white border border-gray-200 rounded-full shadow-sm items-center justify-center text-gray-600 hover:bg-gray-50 -ml-3"
+                >
+                    ‹
+                </button>
+                <div id="thumb-strip" className="flex flex-row gap-2 overflow-x-auto pb-1 no-scrollbar scroll-smooth shrink-0">
+                    {imageArray.map((img, idx) => (
+                        <button
+                            key={idx}
+                            onClick={() => setMainImage(img)}
+                            className={`relative w-[72px] h-[72px] md:w-[80px] md:h-[80px] aspect-square shrink-0 rounded-md border-2 overflow-hidden bg-white transition-all snap-start ${
+                                mainImage === img ? 'border-gray-900' : 'border-gray-200 hover:border-gray-400'
+                            }`}
+                        >
+                            <Image
+                                src={img}
+                                alt={`Thumbnail ${idx + 1}`}
+                                fill
+                                unoptimized
+                                className="object-contain p-1.5"
+                            />
+                        </button>
+                    ))}
+                </div>
+                <button
+                    onClick={() => {
+                        document.getElementById('thumb-strip').scrollBy({ left: 200, behavior: 'smooth' });
+                    }}
+                    className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 w-7 h-7 bg-white border border-gray-200 rounded-full shadow-sm items-center justify-center text-gray-600 hover:bg-gray-50 -mr-3"
+                >
+                    ›
+                </button>
             </div>
         </div>
     );

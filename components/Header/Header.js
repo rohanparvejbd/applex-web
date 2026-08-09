@@ -252,7 +252,7 @@ export default function Header({ categories = [] }) {
     }
     hoverTimeoutRef.current = setTimeout(() => {
       setHoverCategoryIndex(null);
-    }, 300);
+    }, 800);
   };
 
   const openAllMenu = (cat) => {
@@ -383,9 +383,9 @@ export default function Header({ categories = [] }) {
         >
           <div className="overflow-hidden">
           <div className="max-w-[1248px] mx-auto px-0 h-10 flex items-center justify-between text-[12px]" style={{ color: '#6B7280' }}>
-            <a href="tel:01980803060" className="font-bold transition-colors flex items-center gap-1.5 text-[14px] outline-none" style={{ color: '#111827' }}>
+            <a href="tel:09611901399" className="font-bold transition-colors flex items-center gap-1.5 text-[14px] outline-none" style={{ color: '#111827' }}>
               <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: '#6B7280' }}>Hotline 24/7</span>
-              01980-803060
+              09611-901399
             </a>
             <div className="flex items-center gap-6 uppercase tracking-[0.03em] text-[11px] font-bold">
               <Link href="/blogs" className="transition-colors" style={{ color: '#6B7280' }}>
@@ -410,7 +410,7 @@ export default function Header({ categories = [] }) {
           <div className="py-3 max-w-[1248px] mx-auto px-0 flex items-center justify-between gap-0.5 md:gap-4">
 
             {/* Logo */}
-            <div className="flex items-center flex-shrink-0 order-1 md:order-none min-w-[66px] md:min-w-[90px] overflow-visible">
+            <div className="flex items-center flex-shrink-0 order-1 md:order-none min-w-[66px] md:min-w-[90px] overflow-visible ml-4 md:ml-8">
               <Link href="/" aria-label="Applex Home" className="relative z-50 transition-transform duration-300 flex items-center overflow-visible">
                 <Image
                   src="/Applex Logo.png"
@@ -425,26 +425,26 @@ export default function Header({ categories = [] }) {
             </div>
 
             {/* Main Search Bar (Middle on Mobile) */}
-            <div ref={searchContainerRef} className="flex-1 max-w-3xl relative order-2 md:order-none ml-2 md:ml-6">
-              <form onSubmit={handleSearchSubmit} className="flex relative w-full h-10 md:h-[44px] rounded-full items-center overflow-hidden px-4 gap-2" style={{ background: '#FFFFFF', border: 'none' }}>
-                <FiSearch className="w-5 h-5 text-gray-400 flex-shrink-0" />
+            <div ref={searchContainerRef} className="flex-1 max-w-3xl relative order-2 md:order-none ml-1 md:ml-6">
+              <form onSubmit={handleSearchSubmit} className="flex relative w-full h-10 md:h-[44px] rounded-full items-center overflow-hidden px-3 md:px-4 gap-1.5 md:gap-2" style={{ background: '#FFFFFF', border: 'none' }}>
+                <FiSearch className="w-3.5 h-3.5 md:w-5 md:h-5 text-gray-900 opacity-30 flex-shrink-0" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => setIsSearchOpen(true)}
                   placeholder="Search anything.."
-                  className="w-full h-full py-0 text-[16px] md:text-[14px] font-medium text-gray-900 outline-none border-none bg-transparent placeholder-gray-400"
+                  className="w-full h-full py-0 text-[12px] md:text-[14px] font-medium text-gray-900 outline-none border-none bg-transparent placeholder-gray-400 placeholder-opacity-30"
                 />
 
                 {searchQuery && (
                   <button type="button" onClick={() => { setSearchQuery(''); closeSearchModal(); }} className="text-gray-400 hover:text-gray-600 flex-shrink-0">
-                    <FiX className="w-4 h-4" />
+                    <FiX className="w-3.5 h-3.5 md:w-4 md:h-4" />
                   </button>
                 )}
 
                 <button type="button" className="text-gray-400 hover:text-gray-600 flex-shrink-0 ml-1">
-                  <FiMic className="w-5 h-5" />
+                  <FiMic className="w-3.5 h-3.5 md:w-5 md:h-5" />
                 </button>
               </form>
 
@@ -555,7 +555,7 @@ export default function Header({ categories = [] }) {
             </div>
 
             {/* Actions & Menu (Right on Mobile) */}
-            <div className="flex items-center justify-end gap-4 md:gap-6 flex-shrink-0 text-white order-3 md:order-none ml-4 md:ml-8">
+            <div className="flex items-center justify-end md:w-auto gap-4 md:gap-6 flex-shrink-0 text-white order-3 md:order-none ml-4 md:ml-8">
               <Link href="/compare" className="hidden md:flex items-center gap-2.5 cursor-pointer group">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: '#23242A', color: '#FFFFFF' }}>
                   <FiShuffle className="w-[18px] h-[18px]" strokeWidth={2.5} />
@@ -595,7 +595,7 @@ export default function Header({ categories = [] }) {
               {/* Mobile Menu Button (Custom icon at far right) */}
               <button
                 onClick={() => setIsSidebarOpen(true)}
-                className="md:hidden h-9 w-9 rounded-md border border-white/25 text-white flex items-center justify-center flex-shrink-0"
+                className="md:hidden h-9 w-9 rounded-md border border-white/25 text-white flex items-center justify-center flex-shrink-0 mr-2"
                 aria-label="Menu"
               >
                 {/* Use a grid-style icon instead of traditional hamburger */}
@@ -645,7 +645,7 @@ export default function Header({ categories = [] }) {
                             onMouseEnter={() => openAllMenu(cat)}
                             className={`w-full text-left px-4 py-2.5 text-[13px] font-medium transition-colors flex items-center justify-between gap-2 ${
                               isActive
-                                ? 'bg-[#ff8a00] text-white'
+                                ? 'bg-[#000000] text-white'
                                 : 'text-gray-900 hover:bg-gray-50'
                             }`}
                           >
@@ -672,7 +672,7 @@ export default function Header({ categories = [] }) {
                               <p className="text-[13px] font-semibold text-gray-500">No subcategory available</p>
                               <Link
                                 href={`/category/${catSlug}`}
-                                className="mt-3 inline-block text-[12px] font-bold text-[#ff8a00] underline underline-offset-2"
+                                className="mt-3 inline-block text-[12px] font-bold text-[#000000] underline underline-offset-2"
                               >
                                 View category
                               </Link>
@@ -686,7 +686,7 @@ export default function Header({ categories = [] }) {
                               <Link
                                 key={subcat.id || subcat.name}
                                 href={`/category/${catSlug}?subcategory_id=${subcat.id}`}
-                                className="block px-4 py-2.5 text-[13px] font-medium text-gray-900 transition-colors hover:bg-[#ff8a00] hover:text-white"
+                                className="block px-4 py-2.5 text-[13px] font-medium text-gray-900 transition-colors hover:bg-[#000000] hover:text-white"
                               >
                                 {subcat.name}
                               </Link>
@@ -694,7 +694,7 @@ export default function Header({ categories = [] }) {
                             <div className="border-t border-gray-100 px-4 py-2 mt-1">
                               <Link
                                 href={`/category/${catSlug}`}
-                                className="text-[11px] font-bold uppercase tracking-wide text-[#ff8a00] hover:underline"
+                                className="text-[11px] font-bold uppercase tracking-wide text-[#000000] hover:underline"
                               >
                                 View all products
                               </Link>
@@ -727,9 +727,9 @@ export default function Header({ categories = [] }) {
                     <Link
                       href={`/category/${catSlug}`}
                       className={`text-[13px] xl:text-[14px] leading-none whitespace-nowrap transition-colors flex items-center gap-1.5 font-normal ${
-                        isMenuOpen ? 'text-[#FF9F1A]' : 'hover:text-[#FF9F1A]'
+                        isMenuOpen ? 'text-[#000000]' : 'hover:text-[#000000]'
                       }`}
-                      style={{ color: isMenuOpen ? '#FF9F1A' : '#111827', fontFamily: 'Arial, Helvetica, sans-serif' }}
+                      style={{ color: isMenuOpen ? '#000000' : '#111827', fontFamily: 'Arial, Helvetica, sans-serif' }}
                     >
                       <span>{cat.name || cat.category_name}</span>
                       {hasSubcategories && (
@@ -752,7 +752,7 @@ export default function Header({ categories = [] }) {
                                 <p className="text-[13px] font-semibold text-gray-500">No subcategory available</p>
                                 <Link
                                   href={`/category/${catSlug}`}
-                                  className="mt-3 inline-block text-[12px] font-bold text-[#ff8a00] underline underline-offset-2"
+                                  className="mt-3 inline-block text-[12px] font-bold text-[#000000] underline underline-offset-2"
                                 >
                                   View category
                                 </Link>
@@ -763,7 +763,7 @@ export default function Header({ categories = [] }) {
                                   <Link
                                     key={subcat.id || subcat.name}
                                     href={`/category/${catSlug}?subcategory_id=${subcat.id}`}
-                                    className="block px-4 py-2.5 text-[13px] font-medium text-gray-900 transition-colors hover:bg-[#ff8a00] hover:text-white"
+                                    className="block px-4 py-2.5 text-[13px] font-medium text-gray-900 transition-colors hover:bg-[#000000] hover:text-white"
                                   >
                                     {subcat.name}
                                   </Link>
@@ -771,7 +771,7 @@ export default function Header({ categories = [] }) {
                                 <div className="border-t border-gray-100 px-4 py-2">
                                   <Link
                                     href={`/category/${catSlug}`}
-                                    className="text-[11px] font-bold uppercase tracking-wide text-[#ff8a00] hover:underline"
+                                    className="text-[11px] font-bold uppercase tracking-wide text-[#000000] hover:underline"
                                   >
                                     View all products
                                   </Link>
@@ -1101,4 +1101,6 @@ export default function Header({ categories = [] }) {
     </>
   );
 }
+
+
 

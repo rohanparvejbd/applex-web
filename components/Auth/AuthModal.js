@@ -125,7 +125,7 @@ const AuthModal = () => {
 
             {/* Modal */}
             <div
-                className="relative bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden"
+                className="relative bg-white w-full max-w-md rounded-xl shadow-md overflow-hidden"
                 style={{ animation: "fadeInUp 0.3s ease-out" }}
             >
                 {/* Close Button */}
@@ -152,26 +152,26 @@ const AuthModal = () => {
                     <div className="flex border-b border-gray-200 mb-6">
                         <button
                             className={`flex-1 pb-3 text-sm font-semibold transition-all relative ${authModalMode === "login"
-                                ? "text-blue-600"
+                                ? "text-gray-900"
                                 : "text-gray-500 hover:text-gray-700"
                                 }`}
                             onClick={() => setAuthModalMode("login")}
                         >
                             Login
                             {authModalMode === "login" && (
-                                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 rounded-t-full" />
+                                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 rounded-t-full" />
                             )}
                         </button>
                         <button
                             className={`flex-1 pb-3 text-sm font-semibold transition-all relative ${authModalMode === "register"
-                                ? "text-blue-600"
+                                ? "text-gray-900"
                                 : "text-gray-500 hover:text-gray-700"
                                 }`}
                             onClick={() => setAuthModalMode("register")}
                         >
                             Register
                             {authModalMode === "register" && (
-                                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 rounded-t-full" />
+                                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 rounded-t-full" />
                             )}
                         </button>
                     </div>
@@ -213,7 +213,7 @@ const AuthModal = () => {
                                     onChange={handleLoginChange}
                                     required
                                     placeholder="Enter your email"
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900"
                                     style={{ fontSize: "16px" }}
                                 />
                             </div>
@@ -230,7 +230,7 @@ const AuthModal = () => {
                                         onChange={handleLoginChange}
                                         required
                                         placeholder="Enter your password"
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900 pr-11"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900 pr-11"
                                         style={{ fontSize: "16px" }}
                                     />
                                     <button
@@ -250,7 +250,7 @@ const AuthModal = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full py-3.5 bg-blue-600 text-white font-extrabold rounded-xl shadow-lg shadow-blue-600/30 hover:bg-blue-700 hover:-translate-y-0.5 active:translate-y-0 active:shadow-none transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
+                                className="w-full py-3.5 bg-gray-900 text-white font-extrabold rounded-lg hover:bg-gray-800 active:translate-y-0 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
                             >
                                 {loading ? (
                                     <span className="flex items-center justify-center gap-2">
@@ -286,7 +286,7 @@ const AuthModal = () => {
                                     <button
                                         type="button"
                                         onClick={() => setAuthModalMode("register")}
-                                        className="font-bold text-blue-600 hover:underline"
+                                        className="font-bold text-gray-900 hover:underline"
                                     >
                                         Register Now
                                     </button>
@@ -308,7 +308,7 @@ const AuthModal = () => {
                                         onChange={handleRegisterChange}
                                         required
                                         placeholder="First"
-                                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900"
+                                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900"
                                         style={{ fontSize: "16px" }}
                                     />
                                 </div>
@@ -323,7 +323,7 @@ const AuthModal = () => {
                                         onChange={handleRegisterChange}
                                         required
                                         placeholder="Last"
-                                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900"
+                                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900"
                                         style={{ fontSize: "16px" }}
                                     />
                                 </div>
@@ -340,7 +340,7 @@ const AuthModal = () => {
                                     onChange={handleRegisterChange}
                                     required
                                     placeholder="email@example.com"
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900"
+                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900"
                                     style={{ fontSize: "16px" }}
                                 />
                             </div>
@@ -350,7 +350,7 @@ const AuthModal = () => {
                                     Phone
                                 </label>
                                 <div className="flex">
-                                    <span className="inline-flex items-center px-3 rounded-l-xl border border-r-0 border-gray-200 bg-gray-100 text-gray-500 text-sm font-medium">
+                                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-200 bg-gray-100 text-gray-500 text-sm font-medium">
                                         +88
                                     </span>
                                     <input
@@ -360,7 +360,7 @@ const AuthModal = () => {
                                         onChange={handleRegisterChange}
                                         required
                                         placeholder="01XXXXXXXXX"
-                                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-r-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900"
+                                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-r-md focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900"
                                         style={{ fontSize: "16px" }}
                                     />
                                 </div>
@@ -378,7 +378,7 @@ const AuthModal = () => {
                                         onChange={handleRegisterChange}
                                         required
                                         placeholder="Min. 6 characters"
-                                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900 pr-11"
+                                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900 pr-11"
                                         style={{ fontSize: "16px" }}
                                     />
                                     <button
@@ -407,7 +407,7 @@ const AuthModal = () => {
                                         onChange={handleRegisterChange}
                                         required
                                         placeholder="Re-enter password"
-                                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900 pr-11"
+                                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all text-gray-900 pr-11"
                                         style={{ fontSize: "16px" }}
                                     />
                                     <button
@@ -429,7 +429,7 @@ const AuthModal = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full py-3.5 bg-blue-600 text-white font-extrabold rounded-xl shadow-lg shadow-blue-600/30 hover:bg-blue-700 hover:-translate-y-0.5 active:translate-y-0 active:shadow-none transition-all duration-200 mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
+                                className="w-full py-3.5 bg-gray-900 text-white font-extrabold rounded-lg hover:bg-gray-800 active:translate-y-0 transition-all duration-200 mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
                             >
                                 {loading ? (
                                     <span className="flex items-center justify-center gap-2">
@@ -465,7 +465,7 @@ const AuthModal = () => {
                                     <button
                                         type="button"
                                         onClick={() => setAuthModalMode("login")}
-                                        className="font-bold text-blue-600 hover:underline"
+                                        className="font-bold text-gray-900 hover:underline"
                                     >
                                         Log In
                                     </button>

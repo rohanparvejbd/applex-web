@@ -81,6 +81,7 @@ export default function ProductInfo({
         allStorages = [],
         allBatteries = [],
         allRegions = [],
+        allBoxStatuses = [],
         availableModels = [],
         availableStorages = [],
         availableBatteries = [],
@@ -95,6 +96,8 @@ export default function ProductInfo({
         setSelectedBattery = () => {},
         selectedRegion,
         setSelectedRegion = () => {},
+        selectedBoxStatus,
+        setSelectedBoxStatus = () => {},
         variantListPriceNumber,
         currentPriceNumber = Number(product?.rawPrice) || 0,
         displayPrice = normalizeTaka(product?.price),
@@ -385,103 +388,130 @@ export default function ProductInfo({
                 </div>
             </div>
 
-            {/* Used phone: prompt to configure below */}
             {hasVariants && isUsedPhoneProduct && (
-                <div className="mb-6 space-y-3">
-                    <button
-                        type="button"
-                        onClick={() => scrollToVariantSection('configure-device')}
-                        className="group w-full rounded-2xl border border-[#ff8a00]/30 bg-gradient-to-br from-[#fff7ed] via-[#fef8ee] to-white p-4 md:p-5 text-left shadow-[0_8px_30px_-16px_rgba(255,138,0,0.35)] transition-all hover:border-[#ff8a00]/55 hover:shadow-[0_12px_36px_-14px_rgba(255,138,0,0.4)]"
-                    >
-                        <div className="flex items-start gap-3 md:gap-4">
-                            <div className="flex-1 min-w-0">
-                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ff8a00] mb-1">
-                                    Choose your device
-                                </p>
-                                <p className="text-base md:text-lg font-black text-gray-900 leading-snug mb-1">
-                                    Select your preferred options
-                                </p>
-                                <p className="text-xs md:text-sm text-gray-600 leading-relaxed">
-                                    Scroll down to choose your color, storage, battery health, and region. The price will update automatically.
-                                </p>
-                            </div>
-                            <span className="flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-full bg-[#ff8a00] text-white shadow-md group-hover:scale-105 transition-transform">
-                                <FiChevronDown className="animate-bounce" size={22} aria-hidden />
-                            </span>
-                        </div>
-
-                        <div className="mt-4 flex flex-wrap gap-2">
-                            {configureSteps.map((step, index) => (
-                                <span
-                                    key={step.sectionId}
-                                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold border ${
-                                        step.done
-                                            ? 'border-[#ff8a00] bg-[#ff8a00] text-white'
-                                            : 'border-gray-200 bg-white/80 text-gray-600'
-                                    }`}
-                                >
-                                    <span className="opacity-80">{index + 1}.</span>
-                                    {step.label}
-                                </span>
-                            ))}
-                        </div>
-
-                        <div className="mt-3">
-                            <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1.5">
-                                <span>Selection progress</span>
-                                <span className="text-[#ff8a00]">{configureProgress}%</span>
-                            </div>
-                            <div className="h-2 rounded-full bg-white/90 border border-[#ff8a00]/10 overflow-hidden">
-                                <div
-                                    className="h-full rounded-full bg-gradient-to-r from-[#ffb347] to-[#ff8a00] transition-all duration-500"
-                                    style={{ width: `${configureProgress}%` }}
-                                />
+                <div className="space-y-6 mb-6">
+                    {/* Colors */}
+                    {allColors.length > 0 && (
+                        <div>
+                            <h3 className="text-sm font-semibold text-gray-600 mb-2 font-[family-name:var(--font-outfit)]">
+                                Pick a Color: <span className="text-black">{selectedColor || ''}</span>
+                            </h3>
+                            <div className="flex flex-wrap gap-3">
+                                {allColors.map(color => {
+                                    const isSelected = selectedColor === color.name;
+                                    return (
+                                        <button
+                                            key={color.name}
+                                            onClick={() => setSelectedColor(color.name)}
+                                            className={`cursor-pointer flex items-center gap-2 px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-white text-gray-900' : 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400'}`}
+                                        >
+                                            <span
+                                                className="w-5 h-5 rounded-full border-2 border-white shrink-0 shadow-md ring-1 ring-gray-200"
+                                                style={{ backgroundColor: color.hex || '#e5e7eb' }}
+                                            />
+                                            {color.name}
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </div>
+                    )}
 
-                        <p className="mt-3 text-[11px] font-black uppercase tracking-widest text-[#ff8a00] group-hover:underline">
-                            Jump to selection
-                        </p>
-                    </button>
+                    {/* Storage */}
+                    {allStorages.length > 0 && (
+                        <div>
+                            <h3 className="text-sm font-semibold text-gray-600 mb-2 font-[family-name:var(--font-outfit)]">
+                                Storage: <span className="text-black">{selectedStorage || ''}</span>
+                            </h3>
+                            <div className="flex flex-wrap gap-2">
+                                {allStorages.map(storage => {
+                                    const isAvailable = availableStorages.includes(storage);
+                                    const isSelected = selectedStorage === storage;
+                                    return (
+                                        <button
+                                            key={storage}
+                                            onClick={() => isAvailable && setSelectedStorage(storage)}
+                                            disabled={!isAvailable}
+                                            className={`cursor-pointer px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
+                                        >
+                                            {storage}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
 
-                    {(selectedColor || selectedStorage || selectedBattery || selectedRegion) && (
-                        <div className="flex flex-wrap gap-2">
-                            {selectedColor && (
-                                <button
-                                    type="button"
-                                    onClick={() => scrollToVariantSection('variant-color')}
-                                    className="px-3 py-1.5 rounded-full text-xs font-black border border-[#ff8a00]/40 bg-white text-gray-900 hover:bg-[#fff7ed] transition-colors"
-                                >
-                                    {selectedColor}
-                                </button>
-                            )}
-                            {selectedStorage && (
-                                <button
-                                    type="button"
-                                    onClick={() => scrollToVariantSection('variant-storage')}
-                                    className="px-3 py-1.5 rounded-full text-xs font-black border border-[#ff8a00]/40 bg-white text-gray-900 hover:bg-[#fff7ed] transition-colors"
-                                >
-                                    {selectedStorage}
-                                </button>
-                            )}
-                            {selectedBattery && (
-                                <button
-                                    type="button"
-                                    onClick={() => scrollToVariantSection('variant-battery')}
-                                    className="px-3 py-1.5 rounded-full text-xs font-black border border-[#ff8a00]/40 bg-white text-gray-900 hover:bg-[#fff7ed] transition-colors"
-                                >
-                                    {formatBatteryLabel(selectedBattery)}
-                                </button>
-                            )}
-                            {selectedRegion && (
-                                <button
-                                    type="button"
-                                    onClick={() => scrollToVariantSection('variant-region')}
-                                    className="px-3 py-1.5 rounded-full text-xs font-black border border-[#ff8a00]/40 bg-white text-gray-900 hover:bg-[#fff7ed] transition-colors"
-                                >
-                                    {selectedRegion}
-                                </button>
-                            )}
+                    {/* Battery Health */}
+                    {allBatteries.length > 0 && (
+                        <div>
+                            <h3 className="text-sm font-semibold text-gray-600 mb-2 font-[family-name:var(--font-outfit)]">
+                                Battery Health: <span className="text-black">{selectedBattery || ''}</span>
+                            </h3>
+                            <div className="flex flex-wrap gap-2">
+                                {allBatteries.map(battery => {
+                                    const isAvailable = availableBatteries.includes(battery);
+                                    const isSelected = selectedBattery === battery;
+                                    return (
+                                        <button
+                                            key={battery}
+                                            onClick={() => isAvailable && setSelectedBattery(battery)}
+                                            disabled={!isAvailable}
+                                            className={`cursor-pointer px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
+                                        >
+                                            {battery}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Region */}
+                    {allRegions.length > 0 && (
+                        <div>
+                            <h3 className="text-sm font-semibold text-gray-600 mb-2 font-[family-name:var(--font-outfit)]">
+                                Region: <span className="text-black">{selectedRegion || ''}</span>
+                            </h3>
+                            <div className="flex flex-wrap gap-2">
+                                {allRegions.map(region => {
+                                    const isAvailable = availableRegions.includes(region);
+                                    const isSelected = selectedRegion === region;
+                                    return (
+                                        <button
+                                            key={region}
+                                            onClick={() => isAvailable && setSelectedRegion(region)}
+                                            disabled={!isAvailable}
+                                            className={`cursor-pointer px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
+                                        >
+                                            {region}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Box Condition */}
+                    {allBoxStatuses.length > 0 && (
+                        <div>
+                            <h3 className="text-sm font-semibold text-gray-600 mb-2 font-[family-name:var(--font-outfit)]">
+                                Box Condition: <span className="text-black">{selectedBoxStatus || ''}</span>
+                            </h3>
+                            <div className="flex flex-wrap gap-2">
+                                {allBoxStatuses.map(boxStatus => {
+                                    const isSelected = selectedBoxStatus === boxStatus;
+                                    return (
+                                        <button
+                                            key={boxStatus}
+                                            onClick={() => setSelectedBoxStatus(boxStatus)}
+                                            className={`cursor-pointer px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400'}`}
+                                        >
+                                            {boxStatus}
+                                        </button>
+                                    );
+                                })}
+                            </div>
                         </div>
                     )}
                 </div>
@@ -493,23 +523,21 @@ export default function ProductInfo({
                     {/* Colors — use actual color swatches */}
                     {allColors.length > 0 && (
                         <div>
-                            <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-widest font-[family-name:var(--font-outfit)]">
+                            <h3 className="text-sm font-semibold text-gray-600 mb-2 font-[family-name:var(--font-outfit)]">
                                 Pick a Color: <span className="text-black">{selectedColor || ''}</span>
                             </h3>
                             <div className="flex flex-wrap gap-3">
                                 {allColors.map(color => {
                                     const isSelected = selectedColor === color.name;
-                                    const isWhite = color.hex?.toLowerCase() === '#ffffff' || color.hex?.toLowerCase() === '#fff';
-                                    const selectedAccent = isWhite ? '#d1d5db' : color.hex || '#ff8a00';
                                     return (
                                         <button
                                             key={color.name}
                                             onClick={() => setSelectedColor(color.name)}
-                                            className={`cursor-pointer flex items-center gap-3 px-4 py-2.5 rounded-[6px] transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-black bg-white' : 'border border-gray-200 bg-white hover:border-gray-400'}`}
+                                            className={`cursor-pointer flex items-center gap-2 px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-white text-gray-900' : 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400'}`}
                                             title={color.name}
                                         >
-                                            <span className={`w-5 h-5 rounded-full ${isWhite ? 'border border-gray-200' : ''}`} style={{ backgroundColor: color.hex }} />
-                                            <span className={`text-sm font-semibold ${isSelected ? 'text-black' : 'text-gray-500'}`}>{color.name}</span>
+                                            <span className="w-4 h-4 rounded-full border border-gray-200 shrink-0 shadow-sm" style={{ backgroundColor: color.hex }} />
+                                            <span>{color.name}</span>
                                         </button>
                                     );
                                 })}
@@ -520,7 +548,7 @@ export default function ProductInfo({
                     {/* Model */}
                     {allModels.length > 0 && (
                         <div>
-                            <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-widest font-[family-name:var(--font-outfit)]">
+                            <h3 className="text-sm font-semibold text-gray-600 mb-2 font-[family-name:var(--font-outfit)]">
                                 Model: <span className="text-black">{selectedModel || ''}</span>
                             </h3>
                             <div className="flex flex-wrap gap-3">
@@ -532,7 +560,7 @@ export default function ProductInfo({
                                             key={model}
                                             onClick={() => isAvailable && setSelectedModel(model)}
                                             disabled={!isAvailable}
-                                            className={`cursor-pointer px-5 py-2.5 rounded-[6px] text-xs font-semibold uppercase tracking-widest transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-black bg-white text-black' : isAvailable ? 'border border-gray-200 bg-white text-gray-600 hover:border-gray-400' : 'border border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
+                                            className={`cursor-pointer px-5 py-2.5 rounded-[6px] text-xs font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-black bg-white text-black' : isAvailable ? 'border border-gray-200 bg-white text-gray-600 hover:border-gray-400' : 'border border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
                                         >
                                             {model}
                                         </button>
@@ -545,7 +573,7 @@ export default function ProductInfo({
                     {/* Storage / Size */}
                     {allStorages.length > 0 && (
                         <div>
-                            <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-widest font-[family-name:var(--font-outfit)]">
+                            <h3 className="text-sm font-semibold text-gray-600 mb-2 font-[family-name:var(--font-outfit)]">
                                 Storage: <span className="text-black">{selectedStorage || ''}</span>
                             </h3>
                             <div className="flex flex-wrap gap-3">
@@ -557,7 +585,7 @@ export default function ProductInfo({
                                             key={size}
                                             onClick={() => isAvailable && setSelectedStorage(size)}
                                             disabled={!isAvailable}
-                                            className={`cursor-pointer px-5 py-2.5 rounded-[6px] text-xs font-semibold uppercase tracking-widest transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-black bg-white text-black' : isAvailable ? 'border border-gray-200 bg-white text-gray-600 hover:border-gray-400' : 'border border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
+                                            className={`cursor-pointer px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
                                         >
                                             {size}
                                         </button>
@@ -570,7 +598,7 @@ export default function ProductInfo({
                     {/* Battery (used phones) */}
                     {isUsedPhoneProduct && allBatteries.length > 0 && (
                         <div>
-                            <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-widest font-[family-name:var(--font-outfit)]">
+                            <h3 className="text-sm font-semibold text-gray-600 mb-2 font-[family-name:var(--font-outfit)]">
                                 Battery: <span className="text-black">{formatBatteryLabel(selectedBattery) || ''}</span>
                             </h3>
                             <div className="flex flex-wrap gap-3">
@@ -583,7 +611,7 @@ export default function ProductInfo({
                                             type="button"
                                             onClick={() => isAvailable && setSelectedBattery(battery)}
                                             disabled={!isAvailable}
-                                            className={`cursor-pointer px-5 py-2.5 rounded-[6px] text-xs font-semibold uppercase tracking-widest transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-black bg-white text-black' : isAvailable ? 'border border-gray-200 bg-white text-gray-600 hover:border-gray-400' : 'border border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
+                                            className={`cursor-pointer px-5 py-2.5 rounded-[6px] text-xs font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-black bg-white text-black' : isAvailable ? 'border border-gray-200 bg-white text-gray-600 hover:border-gray-400' : 'border border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
                                         >
                                             {formatBatteryLabel(battery)}
                                         </button>
@@ -596,7 +624,7 @@ export default function ProductInfo({
                     {/* Region */}
                     {allRegions.length > 0 && (
                         <div>
-                            <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-widest font-[family-name:var(--font-outfit)]">
+                            <h3 className="text-sm font-semibold text-gray-600 mb-2 font-[family-name:var(--font-outfit)]">
                                 Region: <span className="text-black">{selectedRegion || ''}</span>
                             </h3>
                             <div className="flex flex-wrap gap-2">
@@ -608,7 +636,7 @@ export default function ProductInfo({
                                             key={region}
                                             onClick={() => isAvailable && setSelectedRegion(region)}
                                             disabled={!isAvailable}
-                                            className={`cursor-pointer px-5 py-2.5 rounded-[6px] text-[11px] font-semibold uppercase tracking-wider transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-black bg-white text-black' : isAvailable ? 'border border-gray-200 bg-white text-gray-500 hover:border-gray-400' : 'border border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
+                                            className={`cursor-pointer px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
                                         >
                                             {region}
                                         </button>

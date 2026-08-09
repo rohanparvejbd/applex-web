@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
+import Image from 'next/image';
 import { FiGlobe, FiHardDrive, FiBox, FiChevronDown } from 'react-icons/fi';
 import { applyProductLevelDiscount, getVariantListPriceNumber } from '../../hooks/useProductVariantSelection';
 
@@ -13,10 +14,14 @@ const normalizeTaka = (value) => {
     return numericPart ? `\u09F3${numericPart}` : raw;
 };
 
+function getConditionLabel() {
+    return 'Excellent';
+}
+
 function getConditionStyle(conditionText) {
     const text = String(conditionText || '').toLowerCase();
     if (text.includes('excellent') || text.includes('new') || text.includes('100%')) {
-        return 'bg-[#ff8a00] text-white'; // Brand orange instead of green
+        return 'bg-[#22c55e] text-white';
     }
     if (text.includes('good') || text.includes('90') || text.includes('80')) {
         return 'bg-gray-800 text-white'; // Dark gray
@@ -112,9 +117,9 @@ export default function UsedPhoneVariantGrid({
                 {/* Header & Filter Bar */}
                 <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-8 md:mb-10">
                     <div>
-                        <h2 className="text-2xl md:text-[32px] font-black text-gray-900 tracking-tight mb-2 relative inline-block">
+                        <h2 className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight mb-2 relative inline-block font-[family-name:var(--font-outfit)]">
                             Pick Your Perfect Match
-                            <div className="absolute -bottom-1 left-0 w-full h-[3px] bg-[#ffb347] rounded-full" />
+                            <div className="absolute -bottom-1 left-0 w-12 h-[2px] bg-gray-900" />
                         </h2>
                     </div>
 
@@ -124,7 +129,7 @@ export default function UsedPhoneVariantGrid({
                             <select
                                 value={sortByPrice}
                                 onChange={(e) => setSortByPrice(e.target.value)}
-                                className="appearance-none bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl pl-4 pr-10 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#ff8a00] focus:border-[#ff8a00] cursor-pointer shadow-sm transition-shadow"
+                                className="appearance-none bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-md pl-4 pr-10 py-2 focus:outline-none focus:border-gray-400 cursor-pointer font-[family-name:var(--font-outfit)]"
                             >
                                 <option value="default">Sort by Price</option>
                                 <option value="asc">Price: Low to High</option>
@@ -139,7 +144,7 @@ export default function UsedPhoneVariantGrid({
                                 <select
                                     value={filterColor}
                                     onChange={(e) => setFilterColor(e.target.value)}
-                                    className="appearance-none bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl pl-4 pr-10 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#ff8a00] focus:border-[#ff8a00] cursor-pointer shadow-sm transition-shadow"
+                                    className="appearance-none bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-md pl-4 pr-10 py-2 focus:outline-none focus:border-gray-400 cursor-pointer font-[family-name:var(--font-outfit)]"
                                 >
                                     <option value="all">Any Color</option>
                                     {uniqueColors.map(color => (
@@ -156,7 +161,7 @@ export default function UsedPhoneVariantGrid({
                                 <select
                                     value={filterBattery}
                                     onChange={(e) => setFilterBattery(e.target.value)}
-                                    className="appearance-none bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl pl-4 pr-10 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#ff8a00] focus:border-[#ff8a00] cursor-pointer shadow-sm transition-shadow"
+                                    className="appearance-none bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-md pl-4 pr-10 py-2 focus:outline-none focus:border-gray-400 cursor-pointer font-[family-name:var(--font-outfit)]"
                                 >
                                     <option value="all">Any Condition</option>
                                     {uniqueBatteries.map(battery => (
@@ -171,88 +176,130 @@ export default function UsedPhoneVariantGrid({
 
                 {/* Grid */}
                 {processedImeis.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 will-change-auto">
                         {processedImeis.map((imei, idx) => {
                             const displayPrice = normalizeTaka(`\u09F3${Math.round(imei._computedPrice).toLocaleString('en-IN')}`);
-                            const conditionLabel = formatBatteryLabel(imei.battery_life || 'Used');
+                            const conditionLabel = 'Excellent';
                             const conditionColorClass = getConditionStyle(conditionLabel);
 
                             return (
-                                <div 
-                                    key={imei.id || idx} 
-                                    className="flex flex-col bg-white border border-gray-200/90 rounded-2xl p-4 md:p-5 hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.12)] hover:-translate-y-1 hover:border-[#ffb347] transition-all duration-300"
+                                <div
+                                    key={imei.id || idx}
+                                    className="flex flex-col bg-white rounded-xl overflow-hidden border border-gray-200 transition-all duration-200"
+                                    style={{ contain: 'layout style' }}
                                 >
-                                    {/* Top Badge */}
-                                    <div className="mb-4">
-                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider ${conditionColorClass}`}>
-                                            {conditionLabel}
-                                        </span>
-                                    </div>
-
-                                    {/* Structured Gray Details Box */}
-                                    <div className="bg-[#f8f9fa] border border-gray-100 rounded-xl p-4 flex flex-col gap-3 mb-5">
-                                        {/* Color */}
-                                        <div className="flex items-center gap-2.5">
-                                            <div 
-                                                className="w-4 h-4 rounded-full shadow-sm border border-gray-200/80 shrink-0"
-                                                style={{ backgroundColor: imei.color_code || '#e5e7eb' }}
-                                            />
-                                            <span className="text-[14px] md:text-[15px] font-medium text-[#111827] truncate">
-                                                Color: <span className="font-semibold">{imei.color || 'Standard'}</span>
-                                            </span>
+                                    {/* Top Section: Image + Details */}
+                                    <div className="p-3 pb-0 flex gap-3">
+                                        {/* Left: Product Image */}
+                                        <div className="w-[38%] flex-shrink-0 flex items-center justify-center">
+                                            {(() => {
+                                                const colorData = product?.rawImeis?.find(r => r.color === imei.color && r.image_path);
+                                                const imageSrc = colorData?.image_path || product?.images?.[0];
+                                                return imageSrc ? (
+                                                    <Image
+                                                        src={imageSrc}
+                                                        alt={imei.color || product?.name || 'Product'}
+                                                        width={200}
+                                                        height={280}
+                                                        className="w-full h-auto object-contain"
+                                                        unoptimized
+                                                        loading="lazy"
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-40 bg-gray-50 rounded-xl flex items-center justify-center">
+                                                        <FiBox className="w-10 h-10 text-gray-300" />
+                                                    </div>
+                                                );
+                                            })()}
                                         </div>
 
-                                        {/* Region */}
-                                        {imei.region && (
-                                            <div className="flex items-center gap-2.5">
-                                                <div className="w-4 h-4 flex items-center justify-center shrink-0">
-                                                    <FiGlobe className="w-4 h-4 text-gray-400" />
-                                                </div>
-                                                <span className="text-[14px] md:text-[15px] font-medium text-[#111827] truncate">
-                                                    Region: <span className="font-semibold">{imei.region}</span>
+                                        {/* Right: Details */}
+                                        <div className="flex-1 flex flex-col pt-1">
+                                            {/* Condition Badge */}
+                                            <div className="mb-2">
+                                                <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[12px] font-semibold tracking-wide font-[family-name:var(--font-outfit)] ${conditionColorClass}`}>
+                                                    ★ {conditionLabel}
                                                 </span>
                                             </div>
-                                        )}
 
-                                        {/* Storage */}
-                                        {imei.storage && (
-                                            <div className="flex items-center gap-2.5">
-                                                <div className="w-4 h-4 flex items-center justify-center shrink-0">
-                                                    <FiHardDrive className="w-4 h-4 text-gray-400" />
-                                                </div>
-                                                <span className="text-[14px] md:text-[15px] font-medium text-[#111827] truncate">
-                                                    Storage: <span className="font-semibold">{imei.storage}</span>
-                                                </span>
-                                            </div>
-                                        )}
+                                            {/* Product Name + Subtitle */}
+                                            <h3 className="text-[16px] font-bold text-gray-900 tracking-tight leading-tight font-[family-name:var(--font-outfit)]">{product?.name || 'Product'}</h3>
+                                            <p className="text-gray-400 text-[12px] font-medium mb-1 font-[family-name:var(--font-outfit)]">{imei.storage || ''}{imei.storage && imei.color ? ' | ' : ''}{imei.color || ''}</p>
 
-                                        {/* Box Condition */}
-                                        {imei.box_status && (
-                                            <div className="flex items-center gap-2.5">
-                                                <div className="w-4 h-4 flex items-center justify-center shrink-0">
-                                                    <FiBox className="w-4 h-4 text-gray-400" />
-                                                </div>
-                                                <span className="text-[14px] md:text-[15px] font-medium text-[#111827] truncate">
-                                                    Box Condition: <span className="font-semibold">{imei.box_status}</span>
-                                                </span>
+                                            {/* Specs List */}
+                                            <div className="flex flex-col divide-y divide-gray-100">
+                                                {imei.region && (
+                                                    <div className="flex gap-3 items-center py-0.5">
+                                                        <div className="flex items-center justify-center flex-shrink-0">
+                                                            <FiGlobe className="w-4 h-4 text-gray-500" />
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-gray-400 text-[11px] font-semibold font-[family-name:var(--font-outfit)]">Region</p>
+                                                            <p className="text-[13px] font-bold text-gray-900 font-[family-name:var(--font-outfit)]">{imei.region}</p>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                {imei.storage && (
+                                                    <div className="flex gap-3 items-center py-0.5">
+                                                        <div className="flex items-center justify-center flex-shrink-0">
+                                                            <FiHardDrive className="w-4 h-4 text-gray-500" />
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-gray-400 text-[11px] font-semibold font-[family-name:var(--font-outfit)]">Storage</p>
+                                                            <p className="text-[13px] font-bold text-gray-900 font-[family-name:var(--font-outfit)]">{imei.storage}</p>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                {imei.battery_life && (
+                                                    <div className="flex gap-3 items-center py-0.5">
+                                                        <div className="flex items-center justify-center flex-shrink-0">
+                                                            <FiBox className="w-4 h-4 text-gray-500" />
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-gray-400 text-[11px] font-semibold font-[family-name:var(--font-outfit)]">Battery Health</p>
+                                                            <p className="text-[13px] font-bold text-gray-900 font-[family-name:var(--font-outfit)]">{imei.battery_life}</p>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
-                                        )}
+                                        </div>
                                     </div>
 
-                                    {/* Bottom Row: Price & Buy */}
-                                    <div className="flex flex-col gap-3 mt-auto pt-2">
-                                        <span 
-                                            className="text-xl md:text-2xl font-black text-gray-900 tracking-tight"
-                                            style={{ fontFamily: "'Hind Siliguri','Noto Sans Bengali','Arial',sans-serif" }}
-                                        >
-                                            {displayPrice}
-                                        </span>
-                                        
+                                    {/* Box Condition Banner */}
+                                    {(
+                                        <div className="px-3 mt-1">
+                                            <div className="bg-gray-50 rounded-md px-3 py-2 flex justify-between items-center border border-gray-100">
+                                                <span className="font-bold text-gray-900 text-sm">Box Condition</span>
+                                                <div className="flex items-center gap-2 text-gray-700 font-bold text-sm">
+                                                    <span>{imei.box_status || 'Without Box'}</span>
+                                                    <FiBox className="w-4 h-4 text-gray-500" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Divider */}
+                                    <div className="px-3 mt-1">
+                                        <div className="h-px w-full bg-gray-100" />
+                                    </div>
+
+                                    {/* Price & Buy */}
+                                    <div className="p-3 pt-2 flex justify-between items-end">
+                                        <div>
+                                            <p className="text-gray-400 text-[12px] font-medium mb-0.5">Price</p>
+                                            <span
+                                                className="text-2xl font-bold text-gray-900 tracking-tight font-[family-name:var(--font-outfit)]"
+                                                style={{ fontFamily: "'Hind Siliguri','Noto Sans Bengali','Arial',sans-serif" }}
+                                            >
+                                                {displayPrice}
+                                            </span>
+                                        </div>
                                         <button
                                             onClick={() => handleSelectVariant(imei)}
-                                            className="w-full text-center shrink-0 px-6 py-2.5 rounded-xl border-2 border-[#ff8a00] text-[#ff8a00] font-black text-sm hover:bg-[#ff8a00] hover:text-white transition-colors duration-200 shadow-sm"
+                                            className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-colors rounded-md px-5 py-2.5 flex items-center gap-2 font-semibold text-sm font-[family-name:var(--font-outfit)]"
                                         >
-                                            Buy
+                                            <FiBox className="w-4 h-4" />
+                                            Buy Now
                                         </button>
                                     </div>
                                 </div>

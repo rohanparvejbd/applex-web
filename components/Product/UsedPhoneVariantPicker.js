@@ -299,58 +299,9 @@ export default function UsedPhoneVariantPicker({
     return (
         <div
             id="configure-device"
-            className="mt-8 md:mt-10 w-full max-w-full overflow-x-clip border-t border-gray-100 bg-gradient-to-b from-[#fef8ee]/60 via-white to-white scroll-mt-32 md:scroll-mt-[15rem]"
+            className="mt-8 md:mt-10 w-full max-w-full overflow-x-clip border-t border-gray-100 scroll-mt-32 md:scroll-mt-[15rem]"
         >
-            <div className="sticky top-[64px] md:top-[120px] z-40 w-full overflow-hidden border-b border-[#ff8a00]/15 bg-white/95 backdrop-blur-lg shadow-[0_6px_20px_-10px_rgba(255,138,0,0.25)]">
-                <div className="max-w-[1248px] mx-auto px-3 sm:px-4 md:px-0 min-w-0">
-                    <div className="flex items-center gap-2 sm:gap-3 py-2 sm:py-2.5 md:py-3 min-w-0">
-                        <div className="relative h-9 w-9 sm:h-10 sm:w-10 shrink-0 rounded-lg overflow-hidden bg-[#fef8ee] ring-1 ring-gray-100">
-                            <Image
-                                src={thumbnail}
-                                alt=""
-                                fill
-                                unoptimized
-                                className="object-contain p-0.5"
-                                sizes="40px"
-                            />
-                        </div>
-                        <div className="flex-1 min-w-0 overflow-hidden">
-                            <p className="text-[9px] sm:text-[10px] font-black text-[#ff8a00] uppercase tracking-wide leading-none mb-0.5 truncate">
-                                Your configuration
-                            </p>
-                            <p className="text-[11px] sm:text-xs md:text-sm font-bold text-gray-800 truncate">
-                                {configSummaryLabel || 'Pick options below'}
-                            </p>
-                        </div>
-                        {displayPrice && (
-                            <div className="shrink-0 text-right pl-1 sm:pl-2 border-l border-gray-100 min-w-0 max-w-[42%] sm:max-w-none">
-                                <p className="hidden sm:block text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-0.5">
-                                    Total
-                                </p>
-                                <p
-                                    className="text-xs sm:text-base md:text-lg font-black text-[#ff8a00] truncate"
-                                    style={{
-                                        fontFamily:
-                                            "'Hind Siliguri','Noto Sans Bengali','Arial',sans-serif",
-                                    }}
-                                >
-                                    {displayPrice}
-                                </p>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
-
             <div className="max-w-[1248px] mx-auto px-3 sm:px-4 md:px-0 py-6 md:py-8 min-w-0">
-                <div className="mb-5 md:mb-6 text-center md:text-left">
-                    <p className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">
-                        Build your device
-                    </p>
-                    <p className="text-sm text-gray-600 max-w-xl">
-                        Choose each option below - your price updates as you go.
-                    </p>
-                </div>
 
                 <div className="flex flex-col gap-4 md:gap-5">
                     <UsedPhoneVariantGrid 
@@ -379,23 +330,6 @@ export default function UsedPhoneVariantPicker({
                     showShipping={false}
                     className="mt-6 md:mt-8"
                 />
-
-                <div id="ready-to-order-section" className="scroll-mt-[100px] md:scroll-mt-[180px] mt-5 md:mt-6 rounded-2xl border border-[#ff8a00]/20 bg-white p-4 md:p-6 shadow-[0_8px_30px_-16px_rgba(255,138,0,0.2)]">
-                    <h3 className="text-lg md:text-xl font-black text-gray-900 mb-1">Ready to order?</h3>
-                    <p className="text-sm text-gray-600 mb-5">
-                        Review your options above, then add to cart or buy now.
-                    </p>
-                    <ProductPurchaseBar
-                        product={product}
-                        variantSelection={{
-                            getCartPayloadAndVariants,
-                            currentPriceNumber,
-                        }}
-                        selectedCarePlans={selectedCarePlans}
-                        displayPrice={displayPrice}
-                        showSummary
-                    />
-                </div>
 
                 <ProductMobileCareAndShipping
                     product={product}

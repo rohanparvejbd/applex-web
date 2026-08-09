@@ -21,7 +21,7 @@ export default function Footer() {
                             { icon: <FiHeadphones className="w-5 h-5" />, title: '24/7 Support', sub: 'Dedicated assistance' },
                         ].map((item, i) => (
                             <div key={i} className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#26272C', color: '#FF9F1A' }}>
+                                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#26272C', color: '#ffffff' }}>
                                     {item.icon}
                                 </div>
                                 <div>
@@ -56,7 +56,7 @@ export default function Footer() {
                                 <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
                                     className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
                                     style={{ background: '#17181D', color: '#A9ADB8' }}
-                                    onMouseEnter={e => { e.currentTarget.style.color = '#FF9F1A'; e.currentTarget.style.background = '#1f2025'; }}
+                                    onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.background = '#1f2025'; }}
                                     onMouseLeave={e => { e.currentTarget.style.color = '#A9ADB8'; e.currentTarget.style.background = '#17181D'; }}
                                 >
                                     {s.icon}
@@ -115,7 +115,7 @@ export default function Footer() {
                                 { icon: <FaClock size={13} />, text: '11:00 AM – 9:00 PM (Saturday – Thursday)' },
                             ].map((item, i) => (
                                 <div key={i} className="flex gap-3 items-start">
-                                    <span className="mt-0.5 shrink-0" style={{ color: '#FF9F1A' }}>{item.icon}</span>
+                                    <span className="mt-0.5 shrink-0" style={{ color: '#ffffff' }}>{item.icon}</span>
                                     <p className="text-[13px]" style={{ color: '#A9ADB8' }}>{item.text}</p>
                                 </div>
                             ))}
@@ -129,7 +129,7 @@ export default function Footer() {
                                     className="flex-1 px-4 py-2.5 rounded-lg outline-none text-[13px]"
                                     style={{ background: '#17181D', border: '1px solid #2A2A2D', color: '#FFFFFF' }}
                                 />
-                                <button className="px-3 py-2.5 rounded-lg transition-all" style={{ background: '#FF9F1A', color: '#000000' }}>
+                                <button className="px-3 py-2.5 rounded-lg transition-all" style={{ background: '#ffffff', color: '#000000' }}>
                                     <FiSend size={16} />
                                 </button>
                             </form>
@@ -167,3 +167,4 @@ export default function Footer() {
         </footer>
     );
 }
+
