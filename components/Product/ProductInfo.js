@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FiShare2, FiHeart, FiCreditCard, FiGift, FiFileText, FiShuffle } from 'react-icons/fi';
+import { FiShare2, FiHeart, FiCreditCard, FiGift, FiFileText } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import { useCompare } from '../../context/CompareContext';
 import { useWishlist } from '../../context/WishlistContext';
@@ -278,93 +278,22 @@ export default function ProductInfo({
     return (
         <div className="flex flex-col">
             {/* Header: brand + actions row, then full-width title */}
-            <div className="mb-5">
+            <div className="mb-0">
                 <div className="flex items-center justify-between gap-2 w-full min-w-0">
-                    <div className="min-w-0 flex-1">
-                        {matchedBrand?.name && (
-                            brandListingHref ? (
-                                <Link
-                                    href={brandListingHref}
-                                    className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity min-w-0 max-w-full"
-                                >
-                                    {matchedBrand.image ? (
-                                        // eslint-disable-next-line @next/next/no-img-element
-                                        <img
-                                            src={matchedBrand.image}
-                                            alt={matchedBrand.name}
-                                            className="w-4 h-4 shrink-0 object-contain"
-                                        />
-                                    ) : (
-                                        <span className="w-4 h-4 shrink-0 rounded-full bg-gray-200" />
-                                    )}
-                                    <span className="text-[12px] font-bold text-gray-600 uppercase tracking-tight truncate">
-                                        {matchedBrand.name}
-                                    </span>
-                                </Link>
-                            ) : matchedBrand.id ? (
-                                <Link
-                                    href={`/brand/${matchedBrand.id}`}
-                                    className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity min-w-0 max-w-full"
-                                >
-                                    {matchedBrand.image ? (
-                                        // eslint-disable-next-line @next/next/no-img-element
-                                        <img
-                                            src={matchedBrand.image}
-                                            alt={matchedBrand.name}
-                                            className="w-4 h-4 shrink-0 object-contain"
-                                        />
-                                    ) : (
-                                        <span className="w-4 h-4 shrink-0 rounded-full bg-gray-200" />
-                                    )}
-                                    <span className="text-[12px] font-bold text-gray-600 uppercase tracking-tight truncate">
-                                        {matchedBrand.name}
-                                    </span>
-                                </Link>
-                            ) : (
-                                <div className="inline-flex items-center gap-2 min-w-0 max-w-full">
-                                    {matchedBrand.image ? (
-                                        // eslint-disable-next-line @next/next/no-img-element
-                                        <img
-                                            src={matchedBrand.image}
-                                            alt={matchedBrand.name}
-                                            className="w-4 h-4 shrink-0 object-contain"
-                                        />
-                                    ) : (
-                                        <span className="w-4 h-4 shrink-0 rounded-full bg-gray-200" />
-                                    )}
-                                    <span className="text-[12px] font-bold text-gray-600 uppercase tracking-tight truncate">
-                                        {matchedBrand.name}
-                                    </span>
-                                </div>
-                            )
-                        )}
-                    </div>
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-green-50 border border-green-200 text-[11px] font-semibold text-green-700 font-[family-name:var(--font-outfit)]">
+                        In Stock
+                    </span>
                     <div className="shrink-0 flex items-center gap-1.5 sm:gap-2">
-                        <button
-                            type="button"
-                            onClick={handleAddToCompare}
-                            className="inline-flex items-center gap-1 px-1 py-1 text-[11px] sm:text-[13px] md:text-[14px] font-semibold text-black hover:text-gray-600 transition-colors whitespace-nowrap font-[family-name:var(--font-outfit)]"
-                        >
-                            <FiShuffle size={15} className="shrink-0" />
-                            Add to Compare
-                        </button>
-                        <button
-                            type="button"
-                            onClick={handleShare}
-                            className="p-2 sm:p-2.5 bg-white text-gray-600 hover:text-gray-900 transition-colors shrink-0"
-                            aria-label="Share product"
-                        >
-                            <FiShare2 size={16} />
-                        </button>
                     </div>
                 </div>
-                <h1 className="mt-2.5 md:mt-3 text-[22px] md:text-[28px] font-semibold text-gray-800 tracking-tight leading-snug w-full">
+                <h1 className="mt-3 text-[22px] md:text-[28px] font-bold text-gray-900 tracking-tight leading-snug w-full font-[family-name:var(--font-outfit)]">
                     {product.name}
                 </h1>
+                <hr className="border-t border-gray-200" style={{ marginTop: '26px', marginBottom: '0px' }} />
             </div>
 
             {/* Price section */}
-            <div className="mb-6 p-4 border border-gray-200 rounded-lg font-[family-name:var(--font-outfit)]">
+            <div className="mb-0 font-[family-name:var(--font-outfit)]" style={{ paddingTop: '26px' }}>
                 <div className="flex flex-wrap items-baseline gap-2 mb-1">
                     <span className="inline-flex items-baseline gap-0.5 text-[28px] md:text-[32px] font-bold text-gray-900 tracking-tight">
                         <span className="font-bold leading-none" style={{ fontFamily: "'Hind Siliguri','Noto Sans Bengali','Arial',sans-serif" }}>৳</span>
@@ -380,16 +309,12 @@ export default function ProductInfo({
                         <span className="text-xs font-bold text-white bg-black px-2 py-0.5 rounded">Save {saveAmount.toLocaleString('en-IN')}</span>
                     )}
                 </div>
-                <p className="text-[12px] text-gray-500 mb-2">Price includes VAT</p>
-                <div className="flex flex-wrap items-center gap-2 text-[11px] text-gray-500 border-t border-gray-100 pt-2">
-                    <span>Availability: <span className="font-semibold text-gray-800">In Stock</span></span>
-                    <span className="text-gray-300">|</span>
-                    <span>Code: <span className="font-semibold text-gray-800">{product.sku || 'N/A'}</span></span>
-                </div>
+                <p className="text-[12px] text-gray-500">Price includes VAT</p>
+                <hr className="border-t border-gray-200" style={{ marginTop: '26px', marginBottom: '0px' }} />
             </div>
 
             {hasVariants && isUsedPhoneProduct && (
-                <div className="space-y-6 mb-6">
+                <div className="space-y-6 mb-6" style={{ paddingTop: '26px' }}>
                     {/* Colors */}
                     {allColors.length > 0 && (
                         <div>
@@ -403,7 +328,7 @@ export default function ProductInfo({
                                         <button
                                             key={color.name}
                                             onClick={() => setSelectedColor(color.name)}
-                                            className={`cursor-pointer flex items-center gap-2 px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-white text-gray-900' : 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400'}`}
+                                            className={`cursor-pointer flex items-center gap-2 px-4 py-[9px] rounded-md min-h-[36px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-white text-gray-900' : 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400'}`}
                                         >
                                             <span
                                                 className="w-5 h-5 rounded-full border-2 border-white shrink-0 shadow-md ring-1 ring-gray-200"
@@ -432,7 +357,7 @@ export default function ProductInfo({
                                             key={storage}
                                             onClick={() => isAvailable && setSelectedStorage(storage)}
                                             disabled={!isAvailable}
-                                            className={`cursor-pointer px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
+                                            className={`cursor-pointer px-4 py-[9px] rounded-md min-h-[36px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
                                         >
                                             {storage}
                                         </button>
@@ -457,7 +382,7 @@ export default function ProductInfo({
                                             key={battery}
                                             onClick={() => isAvailable && setSelectedBattery(battery)}
                                             disabled={!isAvailable}
-                                            className={`cursor-pointer px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
+                                            className={`cursor-pointer px-4 py-[9px] rounded-md min-h-[36px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
                                         >
                                             {battery}
                                         </button>
@@ -482,7 +407,7 @@ export default function ProductInfo({
                                             key={region}
                                             onClick={() => isAvailable && setSelectedRegion(region)}
                                             disabled={!isAvailable}
-                                            className={`cursor-pointer px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
+                                            className={`cursor-pointer px-4 py-[9px] rounded-md min-h-[36px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
                                         >
                                             {region}
                                         </button>
@@ -505,7 +430,7 @@ export default function ProductInfo({
                                         <button
                                             key={boxStatus}
                                             onClick={() => setSelectedBoxStatus(boxStatus)}
-                                            className={`cursor-pointer px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400'}`}
+                                            className={`cursor-pointer px-4 py-[9px] rounded-md min-h-[36px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400'}`}
                                         >
                                             {boxStatus}
                                         </button>
@@ -533,10 +458,10 @@ export default function ProductInfo({
                                         <button
                                             key={color.name}
                                             onClick={() => setSelectedColor(color.name)}
-                                            className={`cursor-pointer flex items-center gap-2 px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-white text-gray-900' : 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400'}`}
+                                            className={`cursor-pointer flex items-center gap-2 px-4 py-[9px] rounded-md min-h-[36px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-white text-gray-900' : 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400'}`}
                                             title={color.name}
                                         >
-                                            <span className="w-4 h-4 rounded-full border border-gray-200 shrink-0 shadow-sm" style={{ backgroundColor: color.hex }} />
+                                            <span className="w-5 h-5 rounded-full border-2 border-white shrink-0 shadow-md ring-1 ring-gray-200" style={{ backgroundColor: color.hex }} />
                                             <span>{color.name}</span>
                                         </button>
                                     );
@@ -585,7 +510,7 @@ export default function ProductInfo({
                                             key={size}
                                             onClick={() => isAvailable && setSelectedStorage(size)}
                                             disabled={!isAvailable}
-                                            className={`cursor-pointer px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
+                                            className={`cursor-pointer px-4 py-[9px] rounded-md min-h-[36px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
                                         >
                                             {size}
                                         </button>
@@ -636,7 +561,7 @@ export default function ProductInfo({
                                             key={region}
                                             onClick={() => isAvailable && setSelectedRegion(region)}
                                             disabled={!isAvailable}
-                                            className={`cursor-pointer px-4 py-[10px] rounded-md min-h-[44px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
+                                            className={`cursor-pointer px-4 py-[9px] rounded-md min-h-[36px] text-[13px] font-semibold transition-all duration-200 font-[family-name:var(--font-outfit)] ${isSelected ? 'border-2 border-gray-900 bg-gray-900 text-white' : isAvailable ? 'border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-400' : 'border-2 border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50'}`}
                                         >
                                             {region}
                                         </button>
@@ -649,10 +574,10 @@ export default function ProductInfo({
             )}
 
             {/* Price Benefits */}
-            <div className="mb-6 space-y-3">
+            <div className="mb-6 space-y-3" style={{ paddingTop: '26px' }}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                     {/* Minimum Booking */}
-                    <div className="flex items-center gap-3 rounded-lg border border-gray-200 px-3 py-3 font-[family-name:var(--font-outfit)]">
+                    <div className="rounded-lg bg-gray-50 px-3 py-3 font-[family-name:var(--font-outfit)] flex items-center gap-3">
                         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-gray-100 text-gray-700">
                             <FiCreditCard size={15} />
                         </div>
@@ -663,7 +588,7 @@ export default function ProductInfo({
                     </div>
 
                     {/* Purchase Points */}
-                    <div className="flex items-center gap-3 rounded-lg border border-gray-200 px-3 py-3 font-[family-name:var(--font-outfit)]">
+                    <div className="rounded-lg bg-gray-50 px-3 py-3 font-[family-name:var(--font-outfit)] flex items-center gap-3">
                         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-gray-100 text-gray-700">
                             <FiGift size={15} />
                         </div>

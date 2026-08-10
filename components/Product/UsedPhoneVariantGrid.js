@@ -2,8 +2,9 @@
 
 import React, { useMemo, useState } from 'react';
 import Image from 'next/image';
-import { FiGlobe, FiHardDrive, FiBox, FiChevronDown } from 'react-icons/fi';
+import { FiGlobe, FiHardDrive, FiBox, FiShoppingCart, FiChevronDown } from 'react-icons/fi';
 import { applyProductLevelDiscount, getVariantListPriceNumber } from '../../hooks/useProductVariantSelection';
+import { useCart } from '../../context/CartContext';
 
 const normalizeTaka = (value) => {
     if (value === null || value === undefined || value === '') return '';
@@ -40,8 +41,10 @@ export default function UsedPhoneVariantGrid({
         setSelectedStorage,
         setSelectedBattery,
         setSelectedRegion,
-        scrollToVariantSection
+        scrollToVariantSection,
+        getCartPayloadAndVariants
     } = variantSelection;
+    const { addToCart } = useCart();
 
     const [sortByPrice, setSortByPrice] = useState('default');
     const [filterColor, setFilterColor] = useState('all');
@@ -97,14 +100,14 @@ export default function UsedPhoneVariantGrid({
         return null;
     }
 
-    const handleSelectVariant = (imei) => {
+    const handleAddToCart = (imei) => {
         if (imei.color) setSelectedColor(imei.color);
         if (imei.storage) setSelectedStorage(imei.storage);
         if (imei.battery_life) setSelectedBattery(imei.battery_life);
         if (imei.region) setSelectedRegion(imei.region);
-
-        if (onBuyNow) {
-            onBuyNow();
+        if (getCartPayloadAndVariants) {
+            const { cartProduct, cartVariants } = getCartPayloadAndVariants({ imeiNumber: imei.imei_number });
+            addToCart(cartProduct, 1, cartVariants);
         } else {
             scrollToVariantSection('configure-device-purchase');
         }
@@ -295,11 +298,11 @@ export default function UsedPhoneVariantGrid({
                                             </span>
                                         </div>
                                         <button
-                                            onClick={() => handleSelectVariant(imei)}
+                                            onClick={() => handleAddToCart(imei)}
                                             className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-colors rounded-md px-5 py-2.5 flex items-center gap-2 font-semibold text-sm font-[family-name:var(--font-outfit)]"
                                         >
-                                            <FiBox className="w-4 h-4" />
-                                            Buy Now
+                                            <FiShoppingCart className="w-4 h-4" />
+                                            Add to Cart
                                         </button>
                                     </div>
                                 </div>

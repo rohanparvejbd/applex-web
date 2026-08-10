@@ -304,20 +304,21 @@ export default function UsedPhoneVariantPicker({
             <div className="max-w-[1248px] mx-auto px-3 sm:px-4 md:px-0 py-6 md:py-8 min-w-0">
 
                 <div className="flex flex-col gap-4 md:gap-5">
-                    <UsedPhoneVariantGrid 
-                        product={product} 
+                    <UsedPhoneVariantGrid
+                        product={product}
                         variantSelection={{
                             formatBatteryLabel: formatBattery,
                             setSelectedColor,
                             setSelectedStorage,
                             setSelectedBattery,
                             setSelectedRegion,
+                            getCartPayloadAndVariants,
                             scrollToVariantSection: () => {
                                 if (typeof document !== 'undefined') {
                                     document.getElementById('ready-to-order-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                 }
                             }
-                        }} 
+                        }}
                     />
                 </div>
 
