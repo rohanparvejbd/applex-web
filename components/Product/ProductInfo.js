@@ -297,7 +297,7 @@ export default function ProductInfo({
                 <div className="flex flex-wrap items-baseline gap-2 mb-1">
                     <span className="inline-flex items-baseline gap-0.5 text-[28px] md:text-[32px] font-bold text-gray-900 tracking-tight">
                         <span className="font-bold leading-none" style={{ fontFamily: "'Hind Siliguri','Noto Sans Bengali','Arial',sans-serif" }}>৳</span>
-                        <span>{displayPriceAmount}</span>
+                        <span>{(Number(String(displayPriceAmount).replace(/[^\d]/g, '')) + selectedCarePlans.reduce((sum, p) => sum + (Number(p.price) || 0), 0)).toLocaleString('en-IN')}</span>
                     </span>
                     {displayOldPrice && (
                         <span className="inline-flex items-baseline gap-0.5 text-sm text-gray-400 line-through">
@@ -443,7 +443,7 @@ export default function ProductInfo({
             )}
 
             {hasVariants && !isUsedPhoneProduct && (
-                <div className="space-y-6 mb-6">
+                <div className="space-y-6 mb-6" style={{ paddingTop: '26px' }}>
 
                     {/* Colors — use actual color swatches */}
                     {allColors.length > 0 && (

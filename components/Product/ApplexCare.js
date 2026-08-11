@@ -205,28 +205,31 @@ export default function ApplexCare({ product, currentPrice, selectedCarePlans, t
     return (
         <div className="space-y-3 font-[family-name:var(--font-outfit)]">
             {/* Main Card */}
-            <div className="bg-white rounded-xl overflow-hidden border border-gray-200">
-
-                {/* Shipping & EMI */}
-                <div className="px-4 py-0">
-                    {[
-                        { id: 'shipping', icon: FiTruck, title: 'SHIPPING', sub: '0-3 Day Fast Delivery' },
-                        { id: 'emi', icon: FiCreditCard, title: 'EMI PLANS', sub: 'All Banks & Cards Accepted' },
-                    ].map((item, i) => (
-                        <button key={item.id} onClick={() => setActiveDrawer(item.id)} className={`w-full flex items-center justify-between py-3 text-left group ${i === 0 ? 'border-b border-gray-100' : ''}`}>
-                            <div className="flex items-center gap-4">
-                                <div className="w-9 h-9 bg-gray-50 rounded-lg flex items-center justify-center text-gray-700 group-hover:bg-gray-100 transition-colors">
+            <div className="flex flex-col gap-2 mb-2">
+                {[
+                    { id: 'shipping', icon: null, iconSrc: '/svg/secure-delivery.svg', title: 'SHIPPING', sub: '0-3 Day Fast Delivery' },
+                    { id: 'emi', icon: null, iconSrc: '/svg/loan-application.svg', title: 'EMI PLANS', sub: 'All Banks & Cards Accepted' },
+                ].map((item) => (
+                    <button key={item.id} onClick={() => setActiveDrawer(item.id)} className="w-full flex items-center justify-between px-4 py-3 text-left group bg-[#FAFAFA] rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                        <div className="flex items-center gap-4">
+                            <div className="w-9 h-9 bg-gray-50 rounded-lg flex items-center justify-center text-gray-700 group-hover:bg-gray-100 transition-colors">
+                                {item.iconSrc ? (
+                                    <img src={item.iconSrc} alt={item.title} className="w-9 h-9 object-contain" />
+                                ) : (
                                     <item.icon className="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <h3 className="text-[14px] font-semibold tracking-tight text-gray-900 mb-0.5">{item.title}</h3>
-                                    <p className="text-[12px] text-gray-500">{item.sub}</p>
-                                </div>
+                                )}
                             </div>
-                            <FiChevronRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors" />
-                        </button>
-                    ))}
-                </div>
+                            <div>
+                                <h3 className="text-[14px] font-semibold tracking-tight text-gray-900 mb-0.5">{item.title}</h3>
+                                <p className="text-[12px] text-gray-500">{item.sub}</p>
+                            </div>
+                        </div>
+                        <FiChevronRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors" />
+                    </button>
+                ))}
+            </div>
+
+            <div className="bg-[#FAFAFA] rounded-xl overflow-hidden border border-gray-200">
 
                 {/* Applex Care+ Section */}
                 <div className="px-4 pt-3 pb-1">
@@ -259,7 +262,7 @@ export default function ApplexCare({ product, currentPrice, selectedCarePlans, t
                             return (
                                 <label
                                     key={plan.id}
-                                    className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all ${isSelected ? 'border-[1.5px] border-black bg-white' : 'border border-gray-100 bg-gray-50 hover:border-gray-200'}`}
+                                    className={`flex items-center justify-between px-3 py-2 rounded-2xl cursor-pointer border-[2px] transition-colors ${isSelected ? 'border-black bg-white shadow-sm' : 'border-gray-100 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.06)] hover:border-gray-200'}`}
                                 >
                                     <div className="flex items-center gap-3">
                                         <input
@@ -283,49 +286,29 @@ export default function ApplexCare({ product, currentPrice, selectedCarePlans, t
                     </div>
                 </div>
 
-                {/* Features */}
-                <div className="px-4 py-3 mt-0">
-                    <div className="grid grid-cols-3 gap-2 divide-x divide-gray-100">
-                        {[
-                            { icon: <FiShield className="w-4 h-4" />, title: 'Genuine Parts', sub: '100% Original' },
-                            { icon: <FiCheckCircle className="w-4 h-4" />, title: 'Expert Support', sub: 'Priority Service' },
-                            { icon: <FiPackage className="w-4 h-4" />, title: 'No Hidden Cost', sub: 'Transparent Policy' },
-                        ].map((f, i) => (
-                            <div key={i} className="flex flex-col items-center text-center px-1">
-                                <div className="mb-1.5 text-gray-700">{f.icon}</div>
-                                <h5 className="text-[11px] font-semibold text-gray-900 mb-0.5">{f.title}</h5>
-                                <p className="text-[10px] text-gray-500">{f.sub}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Learn More */}
-                <div className="border-t border-gray-100 p-3 bg-gray-50/50">
-                    <a href="#" className="flex items-center justify-center gap-2 text-[13px] font-semibold text-gray-900 hover:text-black transition-colors group">
+                <div className="px-4 pb-3">
+                    <a href="#" className="flex items-center justify-center gap-1 text-[11px] font-semibold text-gray-500 hover:text-gray-800 transition-colors group">
                         Learn more about Applex Care+
-                        <FiChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        <FiChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                     </a>
                 </div>
             </div>
 
             {/* Trust Badges */}
-            <div className="bg-white rounded-xl border border-gray-200 p-4">
-                <div className="flex justify-between items-center">
-                    {[
-                        { icon: <FiShield className="w-5 h-5" />, title: 'Secure', sub: 'Payment' },
-                        { icon: <FiCheckCircle className="w-5 h-5" />, title: '100%', sub: 'Authentic' },
-                        { icon: <FiHeadphones className="w-5 h-5" />, title: '24/7', sub: 'Support' },
-                    ].map((b, i) => (
-                        <div key={i} className="flex items-center gap-1.5 min-w-0">
-                            <div className="text-gray-800 shrink-0">{b.icon}</div>
-                            <div className="min-w-0">
-                                <h5 className="text-[11px] font-bold text-gray-900 leading-tight whitespace-nowrap">{b.title}</h5>
-                                <p className="text-[10px] text-gray-500 leading-tight whitespace-nowrap">{b.sub}</p>
-                            </div>
+            <div className="bg-[#FAFAFA] rounded-xl border border-gray-200 px-4 py-3 flex justify-between items-center">
+                {[
+                    { icon: <FiShield className="w-5 h-5" />, title: 'Secure', sub: 'Payment' },
+                    { icon: <FiCheckCircle className="w-5 h-5" />, title: '100%', sub: 'Authentic' },
+                    { icon: <FiHeadphones className="w-5 h-5" />, title: '24/7', sub: 'Support' },
+                ].map((b, i) => (
+                    <div key={i} className="flex items-center gap-2 min-w-0">
+                        <div className="text-gray-700 shrink-0">{b.icon}</div>
+                        <div className="min-w-0">
+                            <h5 className="text-[12px] font-bold text-gray-900 leading-tight whitespace-nowrap">{b.title}</h5>
+                            <p className="text-[11px] text-gray-500 leading-tight whitespace-nowrap">{b.sub}</p>
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
             </div>
 
             {/* Drawer */}

@@ -8,7 +8,7 @@ import { EMERGENCY_PHONE_DISPLAY } from '../../lib/siteContact';
 
 export default function Footer() {
     return (
-        <footer className="mt-auto flex flex-col" style={{ background: '#0A0A0B' }}>
+        <footer className="mt-auto flex flex-col font-[family-name:var(--font-outfit)]" style={{ background: '#0A0A0B' }}>
 
             {/* TOP BADGE STRIP */}
             <div style={{ background: '#111113', borderBottom: '1px solid #2D2E33' }}>
@@ -21,7 +21,7 @@ export default function Footer() {
                             { icon: <FiHeadphones className="w-5 h-5" />, title: '24/7 Support', sub: 'Dedicated assistance' },
                         ].map((item, i) => (
                             <div key={i} className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#26272C', color: '#ffffff' }}>
+                                <div className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0" style={{ background: '#26272C', color: '#ffffff' }}>
                                     {item.icon}
                                 </div>
                                 <div>

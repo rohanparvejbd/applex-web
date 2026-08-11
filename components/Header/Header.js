@@ -142,9 +142,13 @@ export default function Header({ categories = [] }) {
     'iphone',
     'andriod',
     'android',
+    'mobile phone',
+    'tablets',
+    'tablet',
     'macbook',
     'ipad',
     'earbuds',
+    'audio products',
     'power bank',
     'smart watch',
     'adapters',
@@ -163,6 +167,7 @@ export default function Header({ categories = [] }) {
     { name: "Adapters", slug: "adapters" },
     { name: "Accessories", slug: "accessories" },
     { name: "Used Phone", slug: "used-phone" },
+    { name: "Offer", slug: "special-offers", isOffer: true },
   ];
 
   const filteredHeaderCategories = (Array.isArray(liveCategories) ? liveCategories : []).filter((cat) =>
@@ -373,7 +378,7 @@ export default function Header({ categories = [] }) {
 
   return (
     <>
-      <header className="w-full sticky top-0 z-50 flex flex-col" style={{ background: '#FFFFFF' }}>
+      <header className="w-full sticky top-0 z-50 flex flex-col font-[family-name:var(--font-outfit)]" style={{ background: '#FFFFFF' }}>
 
         {/* ── ALERTS / MINI TOP BAR ── */}
         <div
@@ -382,7 +387,7 @@ export default function Header({ categories = [] }) {
           }`} style={{ background: '#F3F4F6', borderColor: '#E8EAED' }}
         >
           <div className="overflow-hidden">
-          <div className="max-w-[1248px] mx-auto px-0 h-10 flex items-center justify-between text-[12px]" style={{ color: '#6B7280' }}>
+          <div className="max-w-[1248px] mx-auto px-0 h-10 flex items-center justify-between text-[12px] font-[family-name:var(--font-outfit)]" style={{ color: '#6B7280' }}>
             <a href="tel:09611901399" className="font-bold transition-colors flex items-center gap-1.5 text-[14px] outline-none" style={{ color: '#111827' }}>
               <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: '#6B7280' }}>Hotline 24/7</span>
               09611-901399
@@ -407,7 +412,7 @@ export default function Header({ categories = [] }) {
 
         {/* MAIN TOP BAR */}
         <div style={{ background: '#151517', borderBottom: '1px solid #2D2E33' }}>
-          <div className="py-3 max-w-[1248px] mx-auto px-0 flex items-center justify-between gap-0.5 md:gap-4">
+          <div className="py-0 h-[80px] max-w-[1248px] mx-auto px-0 flex items-center justify-between gap-0.5 md:gap-4 font-[family-name:var(--font-outfit)]">
 
             {/* Logo */}
             <div className="flex items-center flex-shrink-0 order-1 md:order-none min-w-[66px] md:min-w-[90px] overflow-visible ml-4 md:ml-8">
@@ -608,7 +613,7 @@ export default function Header({ categories = [] }) {
 
         {/* BOTTOM BAR */}
         <div className="hidden md:block relative z-40 overflow-visible md:rounded-b-lg" style={{ background: 'rgba(255,255,255,0.85)', borderTop: '1px solid #E8EAED', backdropFilter: 'blur(10px)' }}>
-          <div className="max-w-[1248px] mx-auto px-2 md:px-4 h-14 flex items-center justify-between gap-6">
+          <div className="max-w-[1248px] mx-auto px-2 md:px-4 h-14 flex items-center justify-between gap-6 font-[family-name:var(--font-outfit)]">
 
             <div className="flex-shrink-0 flex items-center">
 
@@ -729,7 +734,7 @@ export default function Header({ categories = [] }) {
                       className={`text-[13px] xl:text-[14px] leading-none whitespace-nowrap transition-colors flex items-center gap-1.5 font-normal ${
                         isMenuOpen ? 'text-[#000000]' : 'hover:text-[#000000]'
                       }`}
-                      style={{ color: isMenuOpen ? '#000000' : '#111827', fontFamily: 'Arial, Helvetica, sans-serif' }}
+                      style={{ color: isMenuOpen ? '#000000' : '#111827', fontFamily: 'var(--font-outfit)' }}
                     >
                       <span>{cat.name || cat.category_name}</span>
                       {hasSubcategories && (

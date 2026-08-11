@@ -67,22 +67,46 @@ export default function ProductPurchaseBar({
         if (!getCartPayloadAndVariants) return;
         const { cartProduct, cartVariants } = getCartPayloadAndVariants({
             quantity,
-            selectedCarePlans,
+            selectedCarePlans: [],
             selectedPricingMode,
             pricingStats,
         });
         addToCart(cartProduct, quantity, cartVariants);
+        selectedCarePlans.forEach((plan) => {
+            if (Number(plan.price) > 0) {
+                addToCart({
+                    id: `careplan_${plan.id}_${cartProduct.id}`,
+                    name: `${plan.name} - ${cartProduct.name}`,
+                    price: `৳${Number(plan.price).toLocaleString()}`,
+                    rawPrice: Number(plan.price),
+                    imageUrl: '/no-image.svg',
+                    isCareplan: true,
+                }, 1, null, false);
+            }
+        });
     };
 
     const handleBuyNow = () => {
         if (!getCartPayloadAndVariants) return;
         const { cartProduct, cartVariants } = getCartPayloadAndVariants({
             quantity,
-            selectedCarePlans,
+            selectedCarePlans: [],
             selectedPricingMode,
             pricingStats,
         });
         addToCart(cartProduct, quantity, cartVariants, false);
+        selectedCarePlans.forEach((plan) => {
+            if (Number(plan.price) > 0) {
+                addToCart({
+                    id: `careplan_${plan.id}_${cartProduct.id}`,
+                    name: `${plan.name} - ${cartProduct.name}`,
+                    price: `৳${Number(plan.price).toLocaleString()}`,
+                    rawPrice: Number(plan.price),
+                    imageUrl: '/no-image.svg',
+                    isCareplan: true,
+                }, 1, null, false);
+            }
+        });
         router.push('/checkout');
     };
 

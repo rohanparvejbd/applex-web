@@ -156,8 +156,8 @@ export default function AddressSelect({
                         ...base,
                         padding: '2px',
                         borderRadius: '0.5rem',
-                        borderColor: state.isFocused ? '#FF2D2D' : '#e5e7eb',
-                        boxShadow: state.isFocused ? '0 0 0 1px #FF2D2D' : 'none',
+                        borderColor: state.isFocused ? '#111827' : '#e5e7eb',
+                        boxShadow: state.isFocused ? '0 0 0 1px #111827' : 'none',
                         fontSize: '16px',
                         '&:hover': {
                             borderColor: '#d1d5db'
@@ -166,32 +166,36 @@ export default function AddressSelect({
                     input: (base) => ({
                         ...base,
                         fontSize: '16px',
+                        fontFamily: 'var(--font-outfit)',
                     }),
                     placeholder: (base) => ({
                         ...base,
                         fontSize: '16px',
+                        fontFamily: 'var(--font-outfit)',
                     }),
                     singleValue: (base) => ({
                         ...base,
                         fontSize: '16px',
+                        fontFamily: 'var(--font-outfit)',
                     }),
                     multiValue: (base) => ({
                         ...base,
-                        backgroundColor: '#fff3f3',
-                        border: '1px solid #fecaca',
+                        backgroundColor: '#f3f4f6',
+                        border: '1px solid #e5e7eb',
                         borderRadius: '6px',
                     }),
                     multiValueLabel: (base) => ({
                         ...base,
-                        color: '#991b1b',
+                        color: '#111827',
                         fontWeight: '500',
                     }),
                     option: (base, state) => ({
                         ...base,
-                        backgroundColor: state.isFocused ? '#fff5f5' : 'white',
+                        backgroundColor: state.isFocused ? '#f3f4f6' : 'white',
                         cursor: 'pointer',
+                        fontFamily: 'var(--font-outfit)',
                         '&:active': {
-                            backgroundColor: '#ffe4e4'
+                            backgroundColor: '#e5e7eb'
                         }
                     }),
                 }}

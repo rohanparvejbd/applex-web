@@ -32,7 +32,7 @@ const courierOptions = [
 ];
 
 export default function CheckoutPage() {
-    const { cartItems, getSubtotal, deliveryFee, updateDeliveryFee, clearCart } =
+    const { cartItems, getSubtotal, deliveryFee, updateDeliveryFee, clearCart, updateQuantity, removeFromCart } =
         useCart();
 
     const router = useRouter();
@@ -354,9 +354,20 @@ export default function CheckoutPage() {
         <div className="min-h-screen bg-white pb-20">
             {/* Minimal Header */}
             <div className="bg-white py-8 border-b border-gray-100">
-                <div className="max-w-[1400px] mx-auto px-4 md:px-8">
-                    <h1 className="text-3xl font-black text-gray-900 tracking-tight">Checkout</h1>
-                    <p className="text-gray-500 font-medium mt-1">Complete your order by providing delivery and payment info.</p>
+                <div className="max-w-[1400px] mx-auto px-4 md:px-8 flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-black text-gray-900 tracking-tight">Checkout</h1>
+                        <p className="text-gray-500 font-medium mt-1">Complete your order by providing delivery and payment info.</p>
+                    </div>
+                    <div className="hidden md:flex items-center gap-2 text-gray-700">
+                        <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center">
+                            <Shield size={20} className="text-white" />
+                        </div>
+                        <div>
+                            <p className="text-sm font-bold text-gray-900">Secure Checkout</p>
+                            <p className="text-xs text-gray-500">Your data is protected</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -368,16 +379,16 @@ export default function CheckoutPage() {
                         {/* Delivery Address Section */}
                         <div className="space-y-6">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-orange-50 text-[#ff8a1f] rounded-lg">
+                                <div className="p-2 bg-black text-white rounded-lg">
                                     <MapPin size={24} />
                                 </div>
                                 <h2 className="text-xl font-bold text-gray-900">Delivery Address</h2>
                             </div>
 
                             {/* Estimated Delivery Box */}
-                            <div className="p-5 bg-gray-50 rounded-2xl border border-gray-100">
+                            <div className="p-5 bg-gray-50 rounded-lg border border-gray-200">
                                 <h4 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
-                                    <Truck size={16} className="text-[#ff8a1f]" /> Estimated Delivery Time
+                                    <Truck size={16} className="text-gray-700" /> Estimated Delivery Time
                                 </h4>
                                 <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
                                     <div className="flex flex-col">
@@ -395,7 +406,7 @@ export default function CheckoutPage() {
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">Full Name</label>
                                     <div className="relative group">
-                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#ff8a1f] transition-colors" />
+                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-gray-900 transition-colors" />
                                         <input
                                             required
                                             type="text"
@@ -403,7 +414,7 @@ export default function CheckoutPage() {
                                             value={formData.firstName}
                                             onChange={handleChange}
                                             placeholder="Enter your full name"
-                                            className="w-full bg-gray-50 border border-gray-100 rounded-xl py-3 pl-12 pr-4 text-gray-900 font-medium focus:bg-white focus:border-[#ff8a1f] focus:outline-none transition-all"
+                                            className="w-full bg-gray-50 border border-gray-200 rounded-lg py-3 pl-12 pr-4 text-gray-900 font-medium focus:bg-white focus:border-gray-900 focus:outline-none transition-all"
                                             style={{ fontSize: '16px' }}
                                         />
                                     </div>
@@ -412,7 +423,7 @@ export default function CheckoutPage() {
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">Phone Number</label>
                                     <div className="relative group">
-                                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#ff8a1f] transition-colors" />
+                                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-gray-900 transition-colors" />
                                         <input
                                             required
                                             type="tel"
@@ -420,7 +431,7 @@ export default function CheckoutPage() {
                                             value={formData.phone}
                                             onChange={handleChange}
                                             placeholder="01XXXXXXXXX"
-                                            className={`w-full bg-gray-50 border rounded-xl py-3 pl-12 pr-4 text-gray-900 font-medium focus:bg-white focus:outline-none transition-all ${formData.phone && !/^01[3-9]\d{8}$/.test(formData.phone) ? "border-red-500" : "border-gray-100 focus:border-[#ff8a1f]"}`}
+                                            className={`w-full bg-gray-50 border rounded-lg py-3 pl-12 pr-4 text-gray-900 font-medium focus:bg-white focus:outline-none transition-all ${formData.phone && !/^01[3-9]\d{8}$/.test(formData.phone) ? "border-red-500" : "border-gray-200 focus:border-gray-900"}`}
                                             style={{ fontSize: '16px' }}
                                         />
                                     </div>
@@ -434,7 +445,7 @@ export default function CheckoutPage() {
                                         value={formData.email}
                                         onChange={handleChange}
                                         placeholder="your@email.com"
-                                        className="w-full bg-gray-50 border border-gray-100 rounded-xl py-3 px-4 text-gray-900 font-medium focus:bg-white focus:border-[#ff8a1f] focus:outline-none transition-all"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-lg py-3 px-4 text-gray-900 font-medium focus:bg-white focus:border-gray-900 focus:outline-none transition-all"
                                         style={{ fontSize: '16px' }}
                                     />
                                 </div>
@@ -457,7 +468,7 @@ export default function CheckoutPage() {
                                         value={formData.address}
                                         onChange={handleChange}
                                         placeholder="House no, Flat, Road, Area..."
-                                        className="w-full bg-gray-50 border border-gray-100 rounded-xl p-4 text-gray-900 font-medium focus:bg-white focus:border-[#ff8a1f] focus:outline-none transition-all resize-none"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-lg p-4 text-gray-900 font-medium focus:bg-white focus:border-gray-900 focus:outline-none transition-all resize-none"
                                         style={{ fontSize: '16px' }}
                                     />
                                 </div>
@@ -467,26 +478,26 @@ export default function CheckoutPage() {
                         {/* Payment Method Section */}
                         <div className="space-y-6 pt-6 border-t border-gray-100">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-orange-50 text-[#ff8a1f] rounded-lg">
+                                <div className="p-2 bg-black text-white rounded-lg">
                                     <CreditCard size={24} />
                                 </div>
                                 <h2 className="text-xl font-bold text-gray-900">Payment Method</h2>
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <label className={`group relative flex items-center p-4 rounded-2xl border-2 transition-all cursor-pointer ${paymentMethod === "Cash" ? "border-[#ff8a1f] bg-orange-50/60" : "border-gray-100 bg-white hover:border-orange-200"}`}>
+                                <label className={`group relative flex items-center p-4 rounded-lg border-2 transition-all cursor-pointer ${paymentMethod === "Cash" ? "border-gray-900 bg-gray-50" : "border-gray-200 bg-white hover:border-gray-400"}`}>
                                     <input type="radio" name="paymentMethod" value="Cash" checked={paymentMethod === "Cash"} onChange={(e) => setPaymentMethod(e.target.value)} className="sr-only" />
-                                    <div className={`w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center transition-all ${paymentMethod === "Cash" ? "border-[#ff8a1f] bg-[#ff8a1f]" : "border-gray-300"}`}>
+                                    <div className={`w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center transition-all ${paymentMethod === "Cash" ? "border-gray-900 bg-gray-900" : "border-gray-300"}`}>
                                         {paymentMethod === "Cash" && <div className="w-1.5 h-1.5 rounded-full bg-white"></div>}
                                     </div>
                                     <div className="flex flex-col">
                                         <span className="font-bold text-gray-900">Cash on Delivery</span>
                                         <span className="text-[11px] text-gray-500 font-medium">Pay when you receive the order</span>
                                     </div>
-                                    <Truck className={`ml-auto w-6 h-6 transition-colors ${paymentMethod === "Cash" ? "text-[#ff8a1f]" : "text-gray-300"}`} />
+                                    <Truck className={`ml-auto w-6 h-6 transition-colors ${paymentMethod === "Cash" ? "text-gray-900" : "text-gray-300"}`} />
                                 </label>
 
-                                <div className="group relative flex items-center p-4 rounded-2xl border border-gray-100 bg-gray-50/50 opacity-60">
+                                <div className="group relative flex items-center p-4 rounded-lg border border-gray-100 bg-gray-50/50 opacity-60">
                                     <div className="w-5 h-5 rounded-full border-2 border-gray-200 mr-4"></div>
                                     <div className="flex flex-col">
                                         <span className="font-bold text-gray-400">Online Payment</span>
@@ -515,9 +526,9 @@ export default function CheckoutPage() {
                                             key={courier.id}
                                             type="button"
                                             onClick={() => setSelectedCourier(courier.id)}
-                                            className={`relative h-24 rounded-2xl border bg-white transition-all overflow-hidden ${isSelected
-                                                ? "border-[#ff8a1f] ring-2 ring-[#ff8a1f]/20 shadow-sm"
-                                                : "border-gray-200 hover:border-[#ff8a1f]/50"
+                                            className={`relative h-24 rounded-lg border bg-white transition-all overflow-hidden ${isSelected
+                                                ? "border-gray-900 ring-2 ring-gray-200 shadow-sm"
+                                                : "border-gray-200 hover:border-gray-400"
                                                 }`}
                                         >
                                             {isSelected && (
@@ -559,29 +570,42 @@ export default function CheckoutPage() {
 
                     {/* ═══ Right Column: Order Summary ═══ */}
                     <div className="lg:sticky lg:top-8 h-fit">
-                        <div className="bg-white rounded-3xl p-6 shadow-2xl shadow-gray-200/50 border border-gray-100">
+                        <div className="bg-white rounded-lg p-6 border border-gray-200">
                             <h3 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h3>
 
                             {/* Cart Items List */}
                             <div className="space-y-4 mb-8 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                                 {cartItems.map((item, idx) => (
-                                    <div key={idx} className="flex gap-4 items-center">
-                                        <div className="w-14 h-14 bg-gray-50 rounded-xl border border-gray-100 overflow-hidden flex-shrink-0 relative">
-                                            <Image 
-                                                src={item.imageUrl || item.image || "/no-image.svg"} 
-                                                alt={item.name} 
-                                                fill 
-                                                className="object-contain p-2" 
-                                                unoptimized 
+                                    <div key={idx} className="flex gap-4 items-center relative group">
+                                        <div className="w-14 h-14 bg-gray-50 rounded-lg border border-gray-100 overflow-hidden flex-shrink-0 relative">
+                                            <Image
+                                                src={item.imageUrl || item.image || "/no-image.svg"}
+                                                alt={item.name}
+                                                fill
+                                                className="object-contain p-2"
+                                                unoptimized
                                             />
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <h4 className="font-bold text-sm text-gray-900 line-clamp-1">{item.name}</h4>
                                             <div className="flex items-center gap-2 mt-0.5">
                                                 <span className="text-[11px] font-bold text-gray-400">Qty: {item.quantity}</span>
-                                                <span className="text-[11px] font-black text-[#ff8a1f]">{formatPrice(item.numericPrice * item.quantity)}</span>
+                                                <span className="text-[11px] font-black text-gray-900">{formatPrice(item.numericPrice * item.quantity)}</span>
                                             </div>
                                         </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                if (item.quantity <= 1) {
+                                                    removeFromCart(item.id, item.variantKey);
+                                                } else {
+                                                    updateQuantity(item.id, item.variantKey, item.quantity - 1);
+                                                }
+                                            }}
+                                            className="shrink-0 w-5 h-5 rounded-full bg-gray-100 hover:bg-red-100 hover:text-red-500 text-gray-400 flex items-center justify-center transition-colors text-xs font-bold"
+                                        >
+                                            ×
+                                        </button>
                                     </div>
                                 ))}
                             </div>
@@ -598,7 +622,7 @@ export default function CheckoutPage() {
                                         }}
                                         onKeyDown={handleCouponEnter}
                                         placeholder="Coupon code"
-                                        className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm font-bold placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ff8a1f]/20 focus:bg-white focus:border-[#ff8a1f] transition-all uppercase"
+                                        className="flex-1 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm font-bold placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:bg-white focus:border-gray-900 transition-all uppercase"
                                     />
                                     {appliedCoupon ? (
                                         <button
@@ -645,7 +669,7 @@ export default function CheckoutPage() {
                                 )}
                                 <div className="flex justify-between items-end pt-4 border-t border-gray-100">
                                     <span className="text-base font-bold text-gray-900 uppercase tracking-tight">Total Bill</span>
-                                    <span className="text-2xl font-black text-[#ff8a1f]">{formatPrice(grandTotal)}</span>
+                                    <span className="text-2xl font-black text-gray-900">{formatPrice(grandTotal)}</span>
                                 </div>
                             </div>
 
@@ -659,11 +683,11 @@ export default function CheckoutPage() {
                                             onChange={(e) => setIsAccepted(e.target.checked)} 
                                             className="peer sr-only" 
                                         />
-                                        <div className="w-5 h-5 border-2 border-gray-200 rounded-md transition-all peer-checked:bg-[#ff8a1f] peer-checked:border-[#ff8a1f]"></div>
+                                        <div className="w-5 h-5 border-2 border-gray-200 rounded-md transition-all peer-checked:bg-gray-900 peer-checked:border-gray-900"></div>
                                         <CheckCircle2 className="absolute top-0 left-0 w-5 h-5 text-white scale-0 transition-all peer-checked:scale-100 p-0.5" />
                                     </div>
                                     <span className="text-xs font-medium text-gray-500 leading-tight">
-                                        I agree to the <Link href="/terms" className="text-[#ff8a1f] font-bold hover:underline">Terms</Link>, <Link href="/warranty" className="text-[#ff8a1f] font-bold hover:underline">Warranty</Link> & <Link href="/refund" className="text-[#ff8a1f] font-bold hover:underline">Refund Policy</Link>
+                                        I agree to the <Link href="/terms" className="text-gray-900 font-bold underline hover:text-black">Terms</Link>, <Link href="/warranty" className="text-gray-900 font-bold underline hover:text-black">Warranty</Link> & <Link href="/refund" className="text-gray-900 font-bold underline hover:text-black">Refund Policy</Link>
                                     </span>
                                 </label>
 
@@ -671,7 +695,7 @@ export default function CheckoutPage() {
                                     type="submit" 
                                     form="checkout-form" 
                                     disabled={isSubmitting} 
-                                    className="w-full py-4 bg-[#ff8a1f] text-white rounded-2xl text-base font-bold uppercase tracking-wider hover:bg-[#f97316] transition-all shadow-xl shadow-[#ff8a1f]/20 active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-3"
+                                    className="w-full py-4 bg-black text-white rounded-lg text-base font-bold uppercase tracking-wider hover:bg-gray-800 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-3"
                                 >
                                     {isSubmitting ? "Processing..." : "Confirm My Order"}
                                     {!isSubmitting && <ArrowRight size={20} />}

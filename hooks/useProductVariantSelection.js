@@ -425,8 +425,10 @@ export function useProductVariantSelection(product, { onVariantImageChange } = {
             if (selectedRegion) variants.region = selectedRegion;
             variants.paymentPlan = selectedPricingMode;
 
-            const selectedCheckoutPrice =
+            const basePriceForCheckout =
                 selectedPricingMode === 'regular' ? pricingStats.regularPrice : pricingStats.offerPrice;
+            const carePlanTotal = selectedCarePlans.reduce((sum, plan) => sum + (Number(plan.price) || 0), 0);
+            const selectedCheckoutPrice = (basePriceForCheckout || 0) + carePlanTotal;
 
             const currentImageUrl =
                 currentVariantImages && currentVariantImages.length > 0

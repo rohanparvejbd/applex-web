@@ -176,7 +176,7 @@ export default function ProductDetailsPage() {
                     ['/no-image.svg'];
 
                 // Pass the raw imeis array for dynamic variant logic
-                const rawImeis = Array.isArray(p.imeis) ? p.imeis.filter(i => i.in_stock === 1) : [];
+                const rawImeis = Array.isArray(p.imeis) ? p.imeis.filter(i => i.in_stock === 1 && i.ecommerce_stock === 1) : [];
 
                 // Use structured specifications array directly from API (filtering out brand row)
                 const apiSpecifications = Array.isArray(p.specifications)

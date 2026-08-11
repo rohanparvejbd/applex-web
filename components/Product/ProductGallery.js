@@ -8,6 +8,7 @@ export default function ProductGallery({ images = [], showUsedTag = false }) {
         ? images.map(img => typeof img === 'string' ? img.trim() : img) 
         : ['/no-image.svg'];
     const [mainImage, setMainImage] = useState(imageArray[0]);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [isZooming, setIsZooming] = useState(false);
     const [zoomOrigin, setZoomOrigin] = useState({ x: 50, y: 50 });
 
@@ -15,6 +16,7 @@ export default function ProductGallery({ images = [], showUsedTag = false }) {
     useEffect(() => {
         if (images && images.length > 0) {
             setMainImage(images[0]);
+            setCurrentIndex(0);
         }
     }, [images?.join(',')]);
 
@@ -62,19 +64,25 @@ export default function ProductGallery({ images = [], showUsedTag = false }) {
 
             {/* Thumbnail Strip (Always Bottom) */}
             <div className="relative">
-                <button
-                    onClick={() => {
-                        document.getElementById('thumb-strip').scrollBy({ left: -200, behavior: 'smooth' });
-                    }}
-                    className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 w-7 h-7 bg-white border border-gray-200 rounded-full shadow-sm items-center justify-center text-gray-600 hover:bg-gray-50 -ml-3"
-                >
-                    ‹
-                </button>
+                {imageArray.length > 5 && currentIndex > 0 && (
+                    <button
+                        onClick={() => {
+                            const newIndex = currentIndex - 1;
+                            setCurrentIndex(newIndex);
+                            setMainImage(imageArray[newIndex]);
+                            document.getElementById('thumb-strip').scrollBy({ left: -200, behavior: 'smooth' });
+                        }}
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center text-black hover:text-gray-600 transition-colors"
+                        style={{ fontSize: '28px', fontWeight: '900', lineHeight: 1 }}
+                    >
+                        ‹
+                    </button>
+                )}
                 <div id="thumb-strip" className="flex flex-row gap-2 overflow-x-auto pb-1 no-scrollbar scroll-smooth shrink-0">
                     {imageArray.map((img, idx) => (
                         <button
                             key={idx}
-                            onClick={() => setMainImage(img)}
+                            onClick={() => { setMainImage(img); setCurrentIndex(idx); }}
                             className={`relative w-[72px] h-[72px] md:w-[80px] md:h-[80px] aspect-square shrink-0 rounded-md border-2 overflow-hidden bg-white transition-all snap-start ${
                                 mainImage === img ? 'border-gray-900' : 'border-gray-200 hover:border-gray-400'
                             }`}
@@ -89,14 +97,20 @@ export default function ProductGallery({ images = [], showUsedTag = false }) {
                         </button>
                     ))}
                 </div>
-                <button
-                    onClick={() => {
-                        document.getElementById('thumb-strip').scrollBy({ left: 200, behavior: 'smooth' });
-                    }}
-                    className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 w-7 h-7 bg-white border border-gray-200 rounded-full shadow-sm items-center justify-center text-gray-600 hover:bg-gray-50 -mr-3"
-                >
-                    ›
-                </button>
+                {imageArray.length > 5 && currentIndex < imageArray.length - 1 && (
+                    <button
+                        onClick={() => {
+                            const newIndex = currentIndex + 1;
+                            setCurrentIndex(newIndex);
+                            setMainImage(imageArray[newIndex]);
+                            document.getElementById('thumb-strip').scrollBy({ left: 200, behavior: 'smooth' });
+                        }}
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center text-black hover:text-gray-600 transition-colors"
+                        style={{ fontSize: '28px', fontWeight: '900', lineHeight: 1 }}
+                    >
+                        ›
+                    </button>
+                )}
             </div>
         </div>
     );

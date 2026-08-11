@@ -22,10 +22,10 @@ function getConditionLabel() {
 function getConditionStyle(conditionText) {
     const text = String(conditionText || '').toLowerCase();
     if (text.includes('excellent') || text.includes('new') || text.includes('100%')) {
-        return 'bg-[#22c55e] text-white';
+        return 'bg-black text-white';
     }
     if (text.includes('good') || text.includes('90') || text.includes('80')) {
-        return 'bg-gray-800 text-white'; // Dark gray
+        return 'bg-gray-800 text-white';
     }
     return 'bg-gray-500 text-white';
 }
@@ -179,7 +179,7 @@ export default function UsedPhoneVariantGrid({
 
                 {/* Grid */}
                 {processedImeis.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 will-change-auto">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 will-change-auto">
                         {processedImeis.map((imei, idx) => {
                             const displayPrice = normalizeTaka(`\u09F3${Math.round(imei._computedPrice).toLocaleString('en-IN')}`);
                             const conditionLabel = 'Excellent';
@@ -191,6 +191,12 @@ export default function UsedPhoneVariantGrid({
                                     className="flex flex-col bg-white rounded-xl overflow-hidden border border-gray-200 transition-all duration-200"
                                     style={{ contain: 'layout style' }}
                                 >
+                                    {/* Condition Badge - top center */}
+                                    <div className="flex justify-center">
+                                        <span className={`inline-flex items-center gap-1 px-2.5 py-1 text-[9px] font-semibold tracking-wide font-[family-name:var(--font-outfit)] ${conditionColorClass}`} style={{ borderRadius: '0 0 50px 50px' }}>
+                                            ★ {conditionLabel}
+                                        </span>
+                                    </div>
                                     {/* Top Section: Image + Details */}
                                     <div className="p-3 pb-0 flex gap-3">
                                         {/* Left: Product Image */}
@@ -218,18 +224,8 @@ export default function UsedPhoneVariantGrid({
 
                                         {/* Right: Details */}
                                         <div className="flex-1 flex flex-col pt-1">
-                                            {/* Condition Badge */}
-                                            <div className="mb-2">
-                                                <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[12px] font-semibold tracking-wide font-[family-name:var(--font-outfit)] ${conditionColorClass}`}>
-                                                    ★ {conditionLabel}
-                                                </span>
-                                            </div>
-
-                                            {/* Product Name + Subtitle */}
                                             <h3 className="text-[16px] font-bold text-gray-900 tracking-tight leading-tight font-[family-name:var(--font-outfit)]">{product?.name || 'Product'}</h3>
                                             <p className="text-gray-400 text-[12px] font-medium mb-1 font-[family-name:var(--font-outfit)]">{imei.storage || ''}{imei.storage && imei.color ? ' | ' : ''}{imei.color || ''}</p>
-
-                                            {/* Specs List */}
                                             <div className="flex flex-col divide-y divide-gray-100">
                                                 {imei.region && (
                                                     <div className="flex gap-3 items-center py-0.5">
@@ -272,8 +268,8 @@ export default function UsedPhoneVariantGrid({
                                     {(
                                         <div className="px-3 mt-1">
                                             <div className="bg-gray-50 rounded-md px-3 py-2 flex justify-between items-center border border-gray-100">
-                                                <span className="font-bold text-gray-900 text-sm">Box Condition</span>
-                                                <div className="flex items-center gap-2 text-gray-700 font-bold text-sm">
+                                                <span className="font-bold text-gray-900 text-[11px] sm:text-sm">Box Condition</span>
+                                                <div className="flex items-center gap-1 sm:gap-2 text-gray-700 font-bold text-[11px] sm:text-sm">
                                                     <span>{imei.box_status || 'Without Box'}</span>
                                                     <FiBox className="w-4 h-4 text-gray-500" />
                                                 </div>
@@ -287,11 +283,11 @@ export default function UsedPhoneVariantGrid({
                                     </div>
 
                                     {/* Price & Buy */}
-                                    <div className="p-3 pt-2 flex justify-between items-end">
+                                    <div className="p-2 sm:p-3 pt-2 flex justify-between items-end">
                                         <div>
-                                            <p className="text-gray-400 text-[12px] font-medium mb-0.5">Price</p>
+                                            <p className="text-gray-400 text-[10px] sm:text-[12px] font-medium mb-0.5">Price</p>
                                             <span
-                                                className="text-2xl font-bold text-gray-900 tracking-tight font-[family-name:var(--font-outfit)]"
+                                                className="text-lg sm:text-2xl font-bold text-gray-900 tracking-tight font-[family-name:var(--font-outfit)]"
                                                 style={{ fontFamily: "'Hind Siliguri','Noto Sans Bengali','Arial',sans-serif" }}
                                             >
                                                 {displayPrice}
@@ -299,7 +295,7 @@ export default function UsedPhoneVariantGrid({
                                         </div>
                                         <button
                                             onClick={() => handleAddToCart(imei)}
-                                            className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-colors rounded-md px-5 py-2.5 flex items-center gap-2 font-semibold text-sm font-[family-name:var(--font-outfit)]"
+                                            className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-colors rounded-md px-3 py-1.5 flex items-center gap-1.5 font-semibold text-sm font-[family-name:var(--font-outfit)]"
                                         >
                                             <FiShoppingCart className="w-4 h-4" />
                                             Add to Cart

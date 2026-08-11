@@ -54,13 +54,6 @@ export default function ShopCategories({ flashSaleBanner = null, categories = []
         <section className="w-full bg-transparent pt-6 pb-8">
             <div className="max-w-[1248px] mx-auto px-4 md:px-0">
 
-                {/* Section Header - Clean Apple style */}
-                <div className="relative flex items-center justify-center mb-4">
-                    <h2 className="text-[22px] font-semibold tracking-tight font-[family-name:var(--font-outfit)]">
-                        <span className="text-black">Featured </span>
-                        <span className="text-black">Categories</span>
-                    </h2>
-                </div>
 
                 {/* Category Card Grid - 4 per row on mobile */}
                 <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 rounded-lg overflow-hidden border border-gray-200">
