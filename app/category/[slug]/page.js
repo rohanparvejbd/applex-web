@@ -591,17 +591,16 @@ export default function CategoryPage() {
                     <main className="lg:w-3/4 order-2">
                         {categoryName === 'Used Phone' && (
                             <div className="mb-6">
-                                <h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wider">Battery Health</h3>
                                 <div className="overflow-x-auto pb-2 scrollbar-hide">
-                                    <div className="flex items-center gap-2 min-w-max">
+                                    <div className="flex items-center justify-end gap-2 min-w-max w-full font-[family-name:var(--font-outfit)]">
                                         {batteryRanges.map((range) => (
                                             <button
                                                 key={range.label}
                                                 onClick={() => setSelectedBatteryRange(
                                                     selectedBatteryRange?.label === range.label ? null : range
                                                 )}
-                                                className={`px-4 py-2 rounded-xl text-sm font-bold transition-all border ${selectedBatteryRange?.label === range.label
-                                                        ? "bg-brand-blue text-white border-brand-blue shadow-md"
+                                                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all border ${selectedBatteryRange?.label === range.label
+                                                        ? "bg-black text-white border-black shadow-md"
                                                         : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
                                                     }`}
                                             >
@@ -612,23 +611,6 @@ export default function CategoryPage() {
                                 </div>
                             </div>
                         )}
-                        <div className="mb-6 md:mb-8">
-                            <div className="w-full relative">
-                                <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder={`Search ${categoryName.toLowerCase()}...`}
-                                    className="w-full h-12 md:h-14 rounded-2xl border border-gray-300 bg-white pl-11 pr-4 text-sm md:text-base outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-shadow"
-                                />
-                            </div>
-                            {searchQuery.trim() && (
-                                <div className="mt-2 text-xs md:text-sm text-gray-500 font-medium">
-                                    Showing results for <span className="font-bold text-gray-900">&quot;{searchQuery.trim()}&quot;</span>
-                                </div>
-                            )}
-                        </div>
 
                         {isLoading ? (
                             <div className="flex flex-col items-center justify-center py-20 bg-gray-50 rounded-2xl border border-gray-200 border-dashed">

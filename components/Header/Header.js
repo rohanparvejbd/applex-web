@@ -794,38 +794,13 @@ export default function Header({ categories = [] }) {
             {/* Right CTA */}
             <div className="flex-shrink-0 flex items-center justify-end relative min-w-[120px]">
               <Link
-                href="/special-offers"
-                style={{
-                  position: 'relative',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '110px',
-                  height: '38px',
-                  fontWeight: 'bold',
-                  fontSize: '15px',
-                  color: '#ffffff',
-                  textDecoration: 'none',
-                  zIndex: 1,
-                  borderRadius: '8px',
-                  background: 'linear-gradient(45deg, #fb0094, #0000ff, #00ff00, #ffff00, #ff0000)',
-                  backgroundSize: '400%',
-                  animation: 'move_142 20s linear infinite',
-                  boxShadow: '0 0 15px rgba(255,100,100,0.4)',
-                }}
+                href="/flash-sale"
+                className="inline-flex items-center gap-1.5 px-3 h-[34px] bg-red-50 text-red-600 font-bold text-sm rounded-full border-2 border-red-500 hover:bg-red-100 transition-colors animate-pulse-glow"
               >
-                <span style={{
-                  position: 'relative',
-                  zIndex: 11,
-                  background: '#000000',
-                  width: 'calc(100% - 4px)',
-                  height: 'calc(100% - 4px)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: '6px',
-                  color: '#ffffff',
-                }}>Offer</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#dc2626"/>
+                </svg>
+                Flash Sale
               </Link>
             </div>
           </div>
@@ -965,7 +940,7 @@ export default function Header({ categories = [] }) {
                   <span>Compare Phones</span>
                 </Link>
                 <Link
-                  href="/special-offers"
+                  href="/flash-sale"
                   onClick={closeSidebar}
                   className="px-3 py-2 rounded text-[12px] text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition-colors flex items-center gap-2"
                 >
@@ -1101,6 +1076,15 @@ export default function Header({ categories = [] }) {
             opacity: 1;
             transform: translateY(0) scaleY(1);
           }
+        }
+      `}</style>
+      <style>{`
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 0px 0px rgba(220, 38, 38, 0.0); }
+          50% { box-shadow: 0 0 8px 3px rgba(220, 38, 38, 0.25); }
+        }
+        .animate-pulse-glow {
+          animation: pulse-glow 2.5s ease-in-out infinite;
         }
       `}</style>
     </>

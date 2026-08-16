@@ -42,7 +42,7 @@ export default function ProductGrid({
     return (
         <div>
             {/* Toolbar: fixed count (left), scrollable brands (middle), fixed sort/filter (right) */}
-            <div className="mb-6 md:mb-8 border border-gray-200 bg-white rounded-2xl p-3 md:p-4">
+            <div className="mb-6 md:mb-8 border border-gray-200 bg-white rounded-lg p-2 md:p-3 font-[family-name:var(--font-outfit)]">
                 <div className="flex items-center gap-3">
                     <div className="shrink-0 text-xs md:text-sm text-gray-600 font-semibold whitespace-nowrap">
                         Showing: ({totalItems} Items)
@@ -54,9 +54,9 @@ export default function ProductGrid({
                                 <button
                                     key={brand}
                                     onClick={() => onSelectBrand && onSelectBrand(brand)}
-                                    className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-semibold whitespace-nowrap transition-colors border ${activeBrand === brand
-                                        ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-600/20'
-                                        : 'bg-white text-gray-700 border-gray-200 hover:border-blue-600 hover:text-blue-600'
+                                    className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-semibold whitespace-nowrap transition-colors border ${activeBrand === brand
+                                        ? 'bg-black text-white border-black'
+                                        : 'bg-white text-gray-700 border-gray-200 hover:border-gray-900 hover:text-gray-900'
                                         }`}
                                 >
                                     {brand}
@@ -76,7 +76,7 @@ export default function ProductGrid({
 
                         <button
                             onClick={onOpenFilter}
-                            className="lg:hidden flex items-center justify-center gap-1.5 bg-blue-600 text-white border-0 py-[9px] px-4 rounded-lg shadow-md shadow-blue-600/20 hover:bg-blue-700 shrink-0 text-xs md:text-sm font-bold transition-all"
+                            className="lg:hidden flex items-center justify-center gap-1.5 bg-black text-white border-0 py-[9px] px-4 rounded-lg hover:bg-gray-800 shrink-0 text-xs md:text-sm font-bold transition-all"
                         >
                             <FiFilter size={15} />
                             <span>Filter</span>

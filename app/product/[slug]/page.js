@@ -375,21 +375,21 @@ export default function ProductDetailsPage() {
         <div className="bg-transparent min-h-screen pb-12">
             <div className="py-3 md:py-4 mb-6 md:mb-8">
                 <div className="max-w-[1248px] mx-auto px-4 md:px-0">
-                    <div className="text-[10px] md:text-[12px] text-gray-400 flex items-center gap-2 font-black uppercase tracking-widest">
-                        <Link href="/" className="hover:text-blue-600 cursor-pointer transition-colors">Home</Link>
+                    <div className="text-[11px] md:text-[12px] text-gray-400 flex items-center gap-1.5 font-medium font-[family-name:var(--font-outfit)]">
+                        <Link href="/" className="hover:text-gray-700 cursor-pointer transition-colors">Home</Link>
                         <span className="text-gray-300">/</span>
                         {productData?.category?.name && (
                             <>
                                 <Link
                                     href={`/category/${productData.category.slug}`}
-                                    className="hover:text-blue-600 cursor-pointer transition-colors"
+                                    className="hover:text-gray-700 cursor-pointer transition-colors capitalize"
                                 >
                                     {productData.category.name}
                                 </Link>
                                 <span className="text-gray-300">/</span>
                             </>
                         )}
-                        <span className="text-blue-600 truncate">{productName}</span>
+                        <span className="text-gray-900 font-semibold truncate capitalize">{productName}</span>
                     </div>
                 </div>
             </div>

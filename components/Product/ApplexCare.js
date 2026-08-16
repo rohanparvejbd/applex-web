@@ -101,7 +101,7 @@ function EMICalculator({ currentPrice }) {
 
 export default function ApplexCare({ product, currentPrice, selectedCarePlans, toggleCarePlan, openEmiTrigger = 0 }) {
     const [activeDrawer, setActiveDrawer] = useState(null);
-    const [selectedPlanId, setSelectedPlanId] = useState(null);
+    const [selectedPlanIds, setSelectedPlanIds] = useState([]);
 
     const categoryLower = (product?.category?.name || '').toLowerCase();
     const categorySlugLower = (product?.category?.slug || '').toLowerCase();
@@ -133,7 +133,12 @@ export default function ApplexCare({ product, currentPrice, selectedCarePlans, t
     }, [openEmiTrigger]);
 
     const handlePlanSelect = (plan) => {
-        setSelectedPlanId(plan.id);
+        setSelectedPlanIds(prev => {
+            if (prev.includes(plan.id)) {
+                return prev.filter(id => id !== plan.id);
+            }
+            return [...prev, plan.id];
+        });
         toggleCarePlan(plan);
     };
 
@@ -258,7 +263,7 @@ export default function ApplexCare({ product, currentPrice, selectedCarePlans, t
                     {/* Plan Options */}
                     <div className="space-y-2">
                         {carePlansToShow.map((plan) => {
-                            const isSelected = selectedPlanId === plan.id;
+                            const isSelected = selectedPlanIds.includes(plan.id);
                             return (
                                 <label
                                     key={plan.id}
@@ -266,8 +271,7 @@ export default function ApplexCare({ product, currentPrice, selectedCarePlans, t
                                 >
                                     <div className="flex items-center gap-3">
                                         <input
-                                            type="radio"
-                                            name="applex_plan"
+                                            type="checkbox"
                                             checked={isSelected}
                                             onChange={() => handlePlanSelect(plan)}
                                             className="w-4 h-4 accent-black cursor-pointer shrink-0"

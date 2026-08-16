@@ -31,7 +31,7 @@ export default function CartSidebar() {
     if (!isCartOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex justify-end">
+        <div className="fixed inset-0 z-50 flex justify-end font-[family-name:var(--font-outfit)]">
             {/* Backdrop */}
             <div
                 className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
@@ -42,15 +42,12 @@ export default function CartSidebar() {
             <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-slide-in-right">
 
                 {/* Header */}
-                <div className="flex items-center justify-between p-5 border-b border-gray-100 bg-white z-10">
+                <div className="flex items-center justify-between p-5 border-b border-gray-200 bg-white z-10">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600">
+                        <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-gray-700">
                             <FiShoppingBag size={20} />
                         </div>
-                        <div>
-                            <h2 className="text-xl font-extrabold text-gray-900">Your Cart</h2>
-                            <p className="text-xs text-blue-600 font-bold uppercase tracking-wider">{cartItems.length} {cartItems.length === 1 ? 'Item' : 'Items'}</p>
-                        </div>
+                        <h2 className="text-xl font-extrabold text-gray-900">Your Cart ({cartItems.length})</h2>
                     </div>
                     <button
                         onClick={closeCart}
@@ -61,101 +58,118 @@ export default function CartSidebar() {
                 </div>
 
                 {/* Cart Items / Empty State */}
-                <div className="flex-1 overflow-y-auto p-5 bg-gray-50/50">
+                <div className="flex-1 overflow-y-auto p-5">
                     {cartItems.length === 0 ? (
                         <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
-                            <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center text-blue-600/30 mb-2">
+                            <div className="w-24 h-24 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400 mb-2">
                                 <FiShoppingBag size={48} />
                             </div>
                             <h3 className="text-lg font-bold text-gray-900">Your cart is empty</h3>
                             <p className="text-sm text-gray-500 max-w-[250px]">Looks like you haven't added anything to your cart yet.</p>
                             <button
                                 onClick={closeCart}
-                                className="mt-4 px-6 py-2.5 bg-gray-900 text-white font-medium rounded-full hover:bg-gray-800 transition-colors"
+                                className="mt-4 px-6 py-2.5 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors"
                             >
                                 Continue Shopping
                             </button>
                         </div>
                     ) : (
-                        <div className="space-y-4 relative">
+                        <div className="space-y-3">
                             {cartItems.map((item, index) => (
-                                <div key={`${item.id}-${item.variantKey}-${index}`} className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm relative pr-10">
+                                <div key={`${item.id}-${item.variantKey}-${index}`} className="bg-white rounded-lg p-4 border border-gray-200">
 
-                                    {/* Delete Button (Absolute top right of card) */}
-                                    <button
-                                        onClick={() => removeFromCart(item.id, item.variantKey)}
-                                        className="absolute top-4 right-4 text-gray-300 hover:text-red-500 transition-colors p-1"
-                                    >
-                                        <FiTrash2 size={18} />
-                                    </button>
-
-                                    <div className="flex gap-4">
+                                    <div className="flex gap-3">
                                         {/* Image */}
-                                        <div className="w-20 h-20 bg-gray-50 rounded-xl overflow-hidden shrink-0 border border-gray-100 relative">
-                                            <Image
-                                                src={
-                                                    (item.imageUrl ||
-                                                    item.images?.[0] ||
-                                                    item.image ||
-                                                    "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=400")?.toString().trim()
-                                                }
-                                                alt={item.name}
-                                                fill
-                                                unoptimized
-                                                className="object-cover"
-                                            />
+                                        <div className="w-16 h-16 bg-gray-50 rounded-lg overflow-hidden shrink-0 border border-gray-200 relative flex items-center justify-center">
+                                            {item.isCareplan ? (
+                                                <div className="w-16 h-16 bg-black rounded-lg flex items-center justify-center">
+                                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M12 2L3 7V12C3 16.55 6.84 20.74 12 22C17.16 20.74 21 16.55 21 12V7L12 2Z" fill="white" fillOpacity="0.15" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                        <path d="M9 12L11 14L15 10" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                            ) : (
+                                                <Image
+                                                    src={
+                                                        (item.imageUrl ||
+                                                        item.images?.[0] ||
+                                                        item.image ||
+                                                        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=400")?.toString().trim()
+                                                    }
+                                                    alt={item.name}
+                                                    fill
+                                                    unoptimized
+                                                    className="object-cover"
+                                                />
+                                            )}
                                         </div>
 
-                                        {/* Info */}
-                                        <div className="flex-1 flex flex-col justify-between">
-                                            <div>
-                                                <h3 className="text-sm font-bold text-gray-900 leading-tight pr-6">{item.name}</h3>
+                                        {/* Name + Variants */}
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className="text-sm font-bold text-gray-900 leading-tight">{item.name}</h3>
 
-                                                {/* Variants */}
-                                                {item.variants && (
-                                                    <div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1 text-xs text-gray-500">
-                                                        {item.variants.storage && (
-                                                            <span className="bg-gray-100 px-2 py-0.5 rounded-md">{item.variants.storage}</span>
-                                                        )}
-                                                        {item.variants.colors?.name && (
-                                                            <span className="bg-gray-100 px-2 py-0.5 rounded-md flex items-center gap-1">
-                                                                <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: item.variants.colors.hex }}></span>
-                                                                {item.variants.colors.name}
-                                                            </span>
-                                                        )}
-                                                        {item.variants.region && (
-                                                            <span className="bg-gray-100 px-2 py-0.5 rounded-md">{item.variants.region}</span>
-                                                        )}
-                                                    </div>
-                                                )}
+                                            {item.variants && (
+                                                <div className="mt-1.5 flex flex-wrap gap-1.5">
+                                                    {item.variants.storage && (
+                                                        <span className="border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-500">{item.variants.storage}</span>
+                                                    )}
+                                                    {item.variants.colors?.name && (
+                                                        <span className="border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-500 flex items-center gap-1">
+                                                            <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: item.variants.colors.hex }}></span>
+                                                            {item.variants.colors.name}
+                                                        </span>
+                                                    )}
+                                                    {item.variants.region && (
+                                                        <span className="border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-500">{item.variants.region}</span>
+                                                    )}
+                                                    {item.variants.battery && (
+                                                        <span className="border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-500">Battery: {item.variants.battery}</span>
+                                                    )}
+                                                    {item.variants.box && (
+                                                        <span className="border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-500">Box: {item.variants.box}</span>
+                                                    )}
+                                                    {item.isCare && (
+                                                        <span className="bg-black text-white text-xs px-2 py-0.5 rounded-full">Applex Care</span>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Price / Quantity / Delete row */}
+                                    <div className="flex items-center justify-between mt-3">
+                                        <div className="font-bold text-black text-sm">
+                                            ৳{(item.numericPrice * item.quantity).toLocaleString()}
+                                        </div>
+
+                                        <div className="flex items-center gap-2">
+                                            {/* Qty Controls */}
+                                            <div className="flex items-center border border-gray-200 rounded-lg">
+                                                <button
+                                                    onClick={() => updateQuantity(item.id, item.variantKey, item.quantity - 1)}
+                                                    className="w-7 h-7 flex items-center justify-center text-gray-600 hover:bg-black hover:text-white rounded-l-lg transition-all disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-gray-600"
+                                                    disabled={item.quantity <= 1}
+                                                >
+                                                    <FiMinus size={12} />
+                                                </button>
+                                                <span className="w-7 text-center text-xs font-bold text-gray-900">
+                                                    {item.quantity}
+                                                </span>
+                                                <button
+                                                    onClick={() => updateQuantity(item.id, item.variantKey, item.quantity + 1)}
+                                                    className="w-7 h-7 flex items-center justify-center text-gray-600 hover:bg-black hover:text-white rounded-r-lg transition-all"
+                                                >
+                                                    <FiPlus size={12} />
+                                                </button>
                                             </div>
 
-                                            {/* Price and Quantity row */}
-                                            <div className="flex items-end justify-between mt-3">
-                                                <div className="font-extrabold text-blue-600 text-sm relative top-1">
-                                                    ৳{(item.numericPrice * item.quantity).toLocaleString()}
-                                                </div>
-
-                                                {/* Qty Controls */}
-                                                <div className="flex items-center bg-gray-50 border border-gray-200 rounded-lg p-0.5">
-                                                    <button
-                                                        onClick={() => updateQuantity(item.id, item.variantKey, item.quantity - 1)}
-                                                        className="w-7 h-7 flex items-center justify-center text-gray-600 hover:bg-white hover:text-black hover:shadow-sm rounded-md transition-all disabled:opacity-50"
-                                                        disabled={item.quantity <= 1}
-                                                    >
-                                                        <FiMinus size={12} />
-                                                    </button>
-                                                    <span className="w-6 text-center text-xs font-bold text-gray-900">
-                                                        {item.quantity}
-                                                    </span>
-                                                    <button
-                                                        onClick={() => updateQuantity(item.id, item.variantKey, item.quantity + 1)}
-                                                        className="w-7 h-7 flex items-center justify-center text-gray-600 hover:bg-white hover:text-black hover:shadow-sm rounded-md transition-all"
-                                                    >
-                                                        <FiPlus size={12} />
-                                                    </button>
-                                                </div>
-                                            </div>
+                                            {/* Delete */}
+                                            <button
+                                                onClick={() => removeFromCart(item.id, item.variantKey)}
+                                                className="p-1.5 text-gray-400 hover:text-gray-700 transition-colors"
+                                            >
+                                                <FiTrash2 size={16} />
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -166,17 +180,22 @@ export default function CartSidebar() {
 
                 {/* Footer / Checkout */}
                 {cartItems.length > 0 && (
-                    <div className="pt-5 pb-24 md:pb-5 px-5 bg-white border-t border-gray-100 shadow-[0_-10px_30px_rgba(0,0,0,0.03)] z-10">
-                        <div className="flex justify-between items-center mb-4">
-                            <span className="text-gray-500 font-medium">Subtotal <span className="text-xs ml-1">(incl. VAT)</span></span>
+                    <div className="pt-5 pb-24 md:pb-5 px-5 bg-white border-t border-gray-200 z-10">
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-gray-500 font-medium">Subtotal</span>
                             <span className="text-xl font-extrabold text-gray-900">৳{cartTotal.toLocaleString()}</span>
                         </div>
 
-                        <p className="text-xs text-gray-400 mb-5 text-center">Shipping and discount warnings calculated at checkout.</p>
+                        <p className="text-xs text-gray-400 mb-5 text-center">Shipping & taxes calculated at checkout</p>
 
-                        <div className="flex flex-col gap-3">
-                            <Link href="/checkout" onClick={closeCart} className="w-full">
-                                <button className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-600/20 transition-all flex items-center justify-center gap-2">
+                        <div className="flex items-center gap-3">
+                            <Link href="/cart" onClick={closeCart} className="flex-1">
+                                <button className="w-full py-3.5 px-4 border border-gray-900 text-gray-900 font-bold rounded-lg hover:bg-gray-50 transition-all">
+                                    View Cart
+                                </button>
+                            </Link>
+                            <Link href="/checkout" onClick={closeCart} className="flex-1">
+                                <button className="w-full py-3.5 px-4 bg-black hover:bg-gray-800 text-white font-bold rounded-lg transition-all">
                                     Checkout Now
                                 </button>
                             </Link>

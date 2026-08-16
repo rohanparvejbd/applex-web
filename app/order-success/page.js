@@ -6,82 +6,77 @@ export default async function OrderSuccessPage({ searchParams }) {
     const invoiceId = params?.invoice?.trim() || "";
 
     return (
-        <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(37,99,235,0.12),_transparent_45%),linear-gradient(180deg,#f8fbff_0%,#ffffff_50%,#f3f7ff_100%)]">
-            <div className="max-w-5xl mx-auto px-4 md:px-8 py-12 md:py-20">
-                <div className="rounded-[32px] border border-blue-100 bg-white/90 backdrop-blur shadow-[0_30px_80px_rgba(37,99,235,0.12)] overflow-hidden">
-                    <div className="relative px-6 md:px-10 pt-10 md:pt-14 pb-8 border-b border-blue-50">
-                        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-500" />
-                        <div className="w-20 h-20 md:w-24 md:h-24 rounded-[28px] bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center text-white shadow-2xl shadow-blue-500/20 mb-6">
-                            <CheckCircle2 className="w-10 h-10 md:w-12 md:h-12" />
+        <div className="bg-gray-50 min-h-screen font-[family-name:var(--font-outfit)]">
+            <div className="max-w-4xl mx-auto px-4 py-12">
+                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <div className="h-1 bg-black" />
+
+                    <div className="px-8 pt-10 pb-8 border-b border-gray-100">
+                        <div className="w-14 h-14 bg-black rounded-lg flex items-center justify-center text-white mb-5">
+                            <CheckCircle2 className="w-7 h-7" />
                         </div>
 
-                        <div className="max-w-2xl">
-                            <p className="text-xs md:text-sm font-extrabold uppercase tracking-[0.28em] text-blue-600 mb-3">
-                                Order Confirmed
-                            </p>
-                            <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight">
-                                Your order has been placed successfully.
-                            </h1>
-                            <p className="mt-4 text-sm md:text-base text-gray-600 leading-relaxed">
-                                We have received your order and started processing it. Keep your invoice number handy to track the status anytime.
-                            </p>
-                        </div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">
+                            Order Confirmed
+                        </p>
+                        <h1 className="text-3xl font-black text-gray-900">
+                            Your order has been placed successfully.
+                        </h1>
+                        <p className="text-sm text-gray-500 mt-3 leading-relaxed">
+                            We have received your order and started processing it. Keep your invoice number handy to track the status anytime.
+                        </p>
                     </div>
 
-                    <div className="px-6 md:px-10 py-8 md:py-10">
-                        <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-                            <div className="rounded-3xl border border-gray-100 bg-gray-50 p-6 md:p-7">
-                                <div className="flex items-center gap-3 mb-4">
-                                    <div className="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-blue-600">
-                                        <ClipboardList className="w-6 h-6" />
-                                    </div>
-                                    <div>
-                                        <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">
-                                            Invoice Number
-                                        </p>
-                                        <h2 className="text-2xl md:text-3xl font-black text-gray-900 break-all">
-                                            {invoiceId ? `#${invoiceId}` : "Will be available shortly"}
-                                        </h2>
-                                    </div>
+                    <div className="px-8 py-8">
+                        <div className="grid gap-4 lg:grid-cols-2">
+                            <div className="border border-gray-200 rounded-lg p-6 bg-gray-50">
+                                <div className="w-10 h-10 bg-white border border-gray-200 rounded-lg flex items-center justify-center">
+                                    <ClipboardList className="w-5 h-5 text-gray-700" />
                                 </div>
-                                <p className="text-sm text-gray-600">
+                                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mt-3 mb-1">
+                                    Invoice Number
+                                </p>
+                                <h2 className="text-2xl font-black text-gray-900 break-all">
+                                    {invoiceId ? `#${invoiceId}` : "Will be available shortly"}
+                                </h2>
+                                <p className="text-sm text-gray-500 mt-2">
                                     {invoiceId
                                         ? "Use this invoice number on the track order page to check delivery progress."
                                         : "Your order was placed, but the invoice number was not found in the redirect URL."}
                                 </p>
                             </div>
 
-                            <div className="rounded-3xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white p-6 md:p-7">
-                                <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-200/80 mb-4">
+                            <div className="bg-gray-900 rounded-lg p-6 text-white">
+                                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
                                     What Happens Next
                                 </p>
                                 <div className="space-y-4">
                                     <div className="flex items-start gap-3">
-                                        <ShieldCheck className="w-5 h-5 text-emerald-300 mt-0.5" />
-                                        <p className="text-sm text-blue-50/90">Your order details have been saved securely.</p>
+                                        <ShieldCheck className="w-4 h-4 text-gray-400 mt-0.5" />
+                                        <p className="text-sm text-gray-300">Your order details have been saved securely.</p>
                                     </div>
                                     <div className="flex items-start gap-3">
-                                        <Truck className="w-5 h-5 text-cyan-300 mt-0.5" />
-                                        <p className="text-sm text-blue-50/90">Delivery updates will appear on the tracking page as the order moves forward.</p>
+                                        <Truck className="w-4 h-4 text-gray-400 mt-0.5" />
+                                        <p className="text-sm text-gray-300">Delivery updates will appear on the tracking page as the order moves forward.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                        <div className="mt-6 flex flex-col sm:flex-row gap-3">
                             <Link
                                 href="/"
-                                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-4 text-white font-extrabold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
+                                className="bg-black text-white rounded-lg px-6 py-3 font-bold inline-flex items-center gap-2 hover:bg-gray-800 transition-colors"
                             >
-                                <Home className="w-5 h-5" />
+                                <Home className="w-4 h-4" />
                                 Back To Home
                             </Link>
                             <Link
                                 href={invoiceId ? `/track-order?invoice=${encodeURIComponent(invoiceId)}` : "/track-order"}
-                                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-gray-200 bg-white px-6 py-4 text-gray-900 font-extrabold hover:border-blue-200 hover:text-blue-700 transition-colors"
+                                className="border border-gray-200 rounded-lg px-6 py-3 font-bold text-gray-900 inline-flex items-center gap-2 hover:bg-gray-50 transition-colors bg-white"
                             >
                                 Track Order
-                                <ArrowRight className="w-5 h-5" />
+                                <ArrowRight className="w-4 h-4" />
                             </Link>
                         </div>
                     </div>

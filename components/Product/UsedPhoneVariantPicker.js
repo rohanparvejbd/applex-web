@@ -321,26 +321,6 @@ export default function UsedPhoneVariantPicker({
                         }}
                     />
                 </div>
-
-                <ProductMobileCareAndShipping
-                    product={product}
-                    currentPriceNumber={currentPriceNumber}
-                    selectedCarePlans={selectedCarePlans}
-                    toggleCarePlan={toggleCarePlan}
-                    emiOpenTrigger={emiOpenTrigger}
-                    showShipping={false}
-                    className="mt-6 md:mt-8"
-                />
-
-                <ProductMobileCareAndShipping
-                    product={product}
-                    currentPriceNumber={currentPriceNumber}
-                    selectedCarePlans={selectedCarePlans}
-                    toggleCarePlan={toggleCarePlan}
-                    emiOpenTrigger={emiOpenTrigger}
-                    showCare={false}
-                    className="mt-6 md:mt-8"
-                />
             </div>
         </div>
     );

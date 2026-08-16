@@ -269,7 +269,7 @@ export default function CheckoutPage() {
             vat: 0,
             tax: 0,
             discount: couponDiscount,
-            product: cartItems.map((item) => ({
+            product: cartItems.filter(item => !item.isCareplan).map((item) => ({
                 product_id: item.id,
                 qty: item.quantity,
                 price: item.numericPrice,
@@ -329,10 +329,10 @@ export default function CheckoutPage() {
     // Empty cart state
     if (cartItems.length === 0) {
         return (
-            <div className="flex min-h-[70vh] flex-col items-center justify-center bg-gray-50">
+            <div className="flex min-h-[70vh] flex-col items-center justify-center bg-white font-[family-name:var(--font-outfit)]">
                 <div className="text-center px-4">
-                    <div className="w-24 h-24 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <ShoppingBag className="h-12 w-12 text-[#ff8a1f]/50" />
+                    <div className="w-24 h-24 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <ShoppingBag className="h-12 w-12 text-gray-400" />
                     </div>
                     <h2 className="text-2xl font-extrabold text-gray-900">
                         Your cart is empty
@@ -341,7 +341,7 @@ export default function CheckoutPage() {
                         Add some products to your cart before checking out.
                     </p>
                     <Link
-                        href="/" className="mt-6 inline-block rounded-xl bg-[#ff8a1f] px-8 py-3.5 text-white font-bold hover:bg-[#f97316] transition-colors shadow-lg shadow-[#ff8a1f]/20"
+                        href="/" className="mt-6 inline-block rounded-lg bg-black px-8 py-3.5 text-white font-bold hover:bg-gray-800 transition-colors"
                     >
                         Continue Shopping
                     </Link>

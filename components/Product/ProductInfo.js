@@ -660,10 +660,10 @@ export default function ProductInfo({
                 */}
             </div>
 
-            {/* Mobile-only Applex Care (below variant picker on used phones) */}
-            <div className={`lg:hidden mb-10 ${hideMobileExtrasInInfo ? 'max-lg:hidden' : ''}`}>
-                <ApplexCare 
-                    product={product} 
+            {/* Mobile-only Applex Care */}
+            <div className="lg:hidden mb-10">
+                <ApplexCare
+                    product={product}
                     currentPrice={currentPriceNumber}
                     selectedCarePlans={selectedCarePlans}
                     toggleCarePlan={toggleCarePlan}
@@ -676,7 +676,7 @@ export default function ProductInfo({
                 variantSelection={variantSelection}
                 selectedCarePlans={selectedCarePlans}
                 displayPrice={displayPrice}
-                className={`mt-4 ${hideMobileExtrasInInfo ? 'max-lg:hidden' : ''}`}
+                className="mt-4"
             />
 
 

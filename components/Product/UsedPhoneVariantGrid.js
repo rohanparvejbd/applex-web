@@ -106,8 +106,19 @@ export default function UsedPhoneVariantGrid({
         if (imei.battery_life) setSelectedBattery(imei.battery_life);
         if (imei.region) setSelectedRegion(imei.region);
         if (getCartPayloadAndVariants) {
-            const { cartProduct, cartVariants } = getCartPayloadAndVariants({ imeiNumber: imei.imei_number });
-            addToCart(cartProduct, 1, cartVariants);
+            const imeiPrice = Math.round(imei._computedPrice || 0);
+            const { cartProduct, cartVariants } = getCartPayloadAndVariants({
+                imeiNumber: imei.imei_number,
+                selectedCarePlans: [],
+                selectedPricingMode: 'offer',
+                pricingStats: { offerPrice: imeiPrice, regularPrice: imeiPrice },
+            });
+            const updatedCartProduct = {
+                ...cartProduct,
+                price: `৳${imeiPrice.toLocaleString('en-IN')}`,
+                rawPrice: imeiPrice,
+            };
+            addToCart(updatedCartProduct, 1, cartVariants);
         } else {
             scrollToVariantSection('configure-device-purchase');
         }
