@@ -11,6 +11,7 @@ import ProductTabs from '../../../components/Product/ProductTabs';
 import ApplexCare from '../../../components/Product/ApplexCare';
 import ProductCard from '../../../components/Shared/PremiumProductCard';
 import { getProductById, getRelatedProduct } from '../../../lib/api';
+import { getSellableImeis } from '../../../lib/imeis';
 
 function mapSeedProductForPdp(seed) {
     if (!seed || !seed.id) return null;
@@ -51,7 +52,7 @@ function mapSeedProductForPdp(seed) {
         hasDiscount,
         videoUrl: '',
         images: [String(seed.imageUrl || '/no-image.svg').trim()],
-        rawImeis: Array.isArray(seed.rawImeis) ? seed.rawImeis : [],
+        rawImeis: getSellableImeis(seed.rawImeis),
         description: '',
         specifications: [],
         category: {
@@ -175,8 +176,8 @@ export default function ProductDetailsPage() {
                     (p.image_path ? [p.image_path.trim()] : []) ||
                     ['/no-image.svg'];
 
-                // Pass the raw imeis array for dynamic variant logic
-                const rawImeis = Array.isArray(p.imeis) ? p.imeis.filter(i => i.in_stock === 1 && i.ecommerce_stock === 1) : [];
+                // Pass sellable imeis only for dynamic variant logic
+                const rawImeis = getSellableImeis(p.imeis);
 
                 // Use structured specifications array directly from API (filtering out brand row)
                 const apiSpecifications = Array.isArray(p.specifications)

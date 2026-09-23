@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useWishlist } from '../../context/WishlistContext';
+import { getSellableImeis } from '../../lib/imeis';
 
 export default function PremiumProductCard({ product, variant = 'default', showUsedTag = false, className = '' }) {
     const isCompact = variant === 'compact';
@@ -32,7 +33,7 @@ export default function PremiumProductCard({ product, variant = 'default', showU
                     brand: product.brand || product.rawSource?.brand_name || null,
                     rawPrice: product.rawPrice,
                     retails_price: product.retails_price || product.rawSource?.retails_price,
-                    rawImeis: product.rawImeis || product.imeis || [],
+                    rawImeis: getSellableImeis(product.rawImeis || product.imeis || []),
                     category: product.category || product.rawSource?.category || null,
                     category_id: product.rawSource?.category_id,
                     category_name: product.rawSource?.category_name,
