@@ -106,7 +106,7 @@ export default function PrivacyPage() {
                     <div className="mt-10 p-5 bg-gray-50 rounded-xl border border-gray-100">
                         <p className="text-sm text-gray-600">
                             If you have any questions about this Privacy Policy, please contact us through our Contact Us page or call{" "}
-                            <a href="tel:01980803060" className="text-brand-purple font-semibold hover:underline">01980-803060</a>.
+                            <a href="tel:01710391010" className="text-brand-purple font-semibold hover:underline">01710-391010</a>.
                         </p>
                     </div>
                 </div>

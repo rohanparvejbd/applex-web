@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const WHATSAPP_URL = "https://wa.me/8801980803060";
+const WHATSAPP_URL = "https://wa.me/8801710391010";
 
 const AGENT_IMAGES = ["/customer-service.png"];
 
@@ -21,7 +21,7 @@ export default function FloatingQuickActions() {
       target="_blank"
       rel="noreferrer"
       aria-label="Chat on WhatsApp"
-      className="fixed right-4 bottom-6 z-[55]"
+      className="fixed right-4 bottom-[80px] md:bottom-6 z-[55]"
     >
       <div className="relative w-14 h-14">
         {/* Agent image */}
