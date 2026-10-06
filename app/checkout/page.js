@@ -1,11 +1,20 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "../../context/CartContext";
-import { saveSalesOrder, getCouponList, applyCoupon } from "../../lib/api";
+import { saveSalesOrder, getCouponList, applyCoupon, getPaymentTypeList, initiatePayment } from "../../lib/api";
+import {
+    getStoreUserId,
+    parsePaymentTypeList,
+    buildPaymentMethodPayload,
+    getPaymentUrl,
+    getInvoiceIdFromOrderResponse,
+    resolveGatewayAmount,
+    savePendingPurchase,
+} from "../../lib/paymentUtils";
 import {
     MapPin,
     CreditCard,
@@ -64,7 +73,37 @@ export default function CheckoutPage() {
     const [couponError, setCouponError] = useState("");
     const [isAccepted, setIsAccepted] = useState(false);
 
+    const [paymentTypes, setPaymentTypes] = useState([]);
+    const [paymentTypesLoading, setPaymentTypesLoading] = useState(true);
+    const [paymentTypesError, setPaymentTypesError] = useState("");
+
     const formRef = useRef(null);
+
+    useEffect(() => {
+        let isMounted = true;
+        const loadPaymentTypes = async () => {
+            try {
+                const storeUserId = getStoreUserId();
+                if (!storeUserId) throw new Error("Missing NEXT_PUBLIC_USER_ID");
+                const response = await getPaymentTypeList(storeUserId);
+                const parsed = parsePaymentTypeList(response);
+                if (!isMounted) return;
+                setPaymentTypes(parsed.all);
+            } catch (error) {
+                console.error("Failed to load payment types:", error);
+                if (!isMounted) return;
+                setPaymentTypes([]);
+                setPaymentTypesError("Unable to load payment methods right now.");
+            } finally {
+                if (isMounted) setPaymentTypesLoading(false);
+            }
+        };
+        loadPaymentTypes();
+        return () => { isMounted = false; };
+    }, []);
+
+    const paymentConfigs = useMemo(() => parsePaymentTypeList({ data: { data: paymentTypes } }), [paymentTypes]);
+    const sslPaymentConfig = paymentConfigs.ssl;
 
     // Load saved details on mount
     useEffect(() => {
@@ -262,7 +301,7 @@ export default function CheckoutPage() {
         }
 
         const orderPayload = {
-            pay_mode: paymentMethod,
+            pay_mode: paymentMethod === "SSL" ? "Online" : "Cash",
             paid_amount: 0,
             user_id: process.env.NEXT_PUBLIC_USER_ID,
             sub_total: subTotal,
@@ -296,6 +335,7 @@ export default function CheckoutPage() {
             detailed_address: `${formData.address}${courierSuffix}`,
             courier: selectedCourierObj.id,
             courier_name: selectedCourierObj.name,
+            payment_method: paymentMethod === "SSL" ? buildPaymentMethodPayload(sslPaymentConfig, 0) : [],
         };
 
         try {
@@ -308,12 +348,61 @@ export default function CheckoutPage() {
             }
 
             const response = await saveSalesOrder(orderPayload);
+            const invoiceId = getInvoiceIdFromOrderResponse(response) || response.data?.invoice_id || response.invoice_id || "INV-" + Date.now();
 
-            if (response.success) {
-                clearCart();
-                toast.success("Order placed successfully!");
-                const invoiceId = response.data?.invoice_id || response.invoice_id || "INV-" + Date.now();
-                router.push(`/order-success?invoice=${invoiceId}`);
+            if (response.success && invoiceId) {
+                if (paymentMethod === "SSL") {
+                    const amountToCharge = resolveGatewayAmount(grandTotal);
+                    const initiatePaymentMethodPayload = buildPaymentMethodPayload(
+                        sslPaymentConfig,
+                        amountToCharge
+                    );
+
+                    if (!initiatePaymentMethodPayload) {
+                        toast.error("Online payment is not configured yet.");
+                        router.push(`/order-cancel?invoice=${encodeURIComponent(invoiceId)}`);
+                        return;
+                    }
+
+                    const paymentResponse = await initiatePayment({
+                        user_id: process.env.NEXT_PUBLIC_USER_ID,
+                        amount: amountToCharge,
+                        customer_name: formData.firstName,
+                        customer_email: formData.email?.trim() || "customer@applex.com",
+                        customer_phone: formData.phone,
+                        customer_address: `${formData.address}, ${selectedCity}, ${selectedDistrict}`,
+                        customer_city: selectedDistrict || selectedCity || "Dhaka",
+                        customer_country: "Bangladesh",
+                        product_name: cartItems.map((item) => item.id).join(","),
+                        invoice_id: invoiceId,
+                        product_category: "Electronics",
+                        payment_method: initiatePaymentMethodPayload,
+                    });
+
+                    const paymentUrl = getPaymentUrl(paymentResponse);
+
+                    if (!paymentUrl) {
+                        console.error("No payment URL received from gateway", paymentResponse);
+                        toast.error("Payment initiation failed. Please try again.");
+                        router.push(`/order-cancel?invoice=${encodeURIComponent(invoiceId)}`);
+                        return;
+                    }
+
+                    savePendingPurchase({
+                        invoiceId,
+                        cartItems,
+                    });
+
+                    toast.loading("Redirecting to secure payment...", { duration: 3000 });
+                    setTimeout(() => {
+                        window.location.href = paymentUrl;
+                    }, 500);
+
+                } else {
+                    clearCart();
+                    toast.success("Order placed successfully!");
+                    router.push(`/order-success?invoice=${invoiceId}`);
+                }
             } else {
                 toast.error("Failed to place order. Please try again.");
                 console.error("Order failed:", response);
@@ -497,14 +586,27 @@ export default function CheckoutPage() {
                                     <Truck className={`ml-auto w-6 h-6 transition-colors ${paymentMethod === "Cash" ? "text-gray-900" : "text-gray-300"}`} />
                                 </label>
 
-                                <div className="group relative flex items-center p-4 rounded-lg border border-gray-100 bg-gray-50/50 opacity-60">
-                                    <div className="w-5 h-5 rounded-full border-2 border-gray-200 mr-4"></div>
-                                    <div className="flex flex-col">
-                                        <span className="font-bold text-gray-400">Online Payment</span>
-                                        <span className="text-[10px] font-bold bg-gray-200 text-gray-500 px-2 py-0.5 rounded-full w-fit mt-1">COMING SOON</span>
+                                <label className={`group relative flex items-center p-4 rounded-lg border-2 transition-all cursor-pointer ${paymentMethod === "SSL" ? "border-gray-900 bg-gray-50" : "border-gray-200 bg-white hover:border-gray-400"} ${!sslPaymentConfig || paymentTypesLoading ? "opacity-60 cursor-not-allowed" : ""}`}>
+                                    <input
+                                        type="radio"
+                                        name="paymentMethod"
+                                        value="SSL"
+                                        checked={paymentMethod === "SSL"}
+                                        onChange={(e) => setPaymentMethod(e.target.value)}
+                                        disabled={!sslPaymentConfig || paymentTypesLoading}
+                                        className="sr-only"
+                                    />
+                                    <div className={`w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center transition-all ${paymentMethod === "SSL" ? "border-gray-900 bg-gray-900" : "border-gray-300"}`}>
+                                        {paymentMethod === "SSL" && <div className="w-1.5 h-1.5 rounded-full bg-white"></div>}
                                     </div>
-                                    <CreditCard className="ml-auto w-6 h-6 text-gray-300" />
-                                </div>
+                                    <div className="flex flex-col">
+                                        <span className="font-bold text-gray-900">Online Payment</span>
+                                        <span className="text-[11px] text-gray-500 font-medium">
+                                            {paymentTypesLoading ? "Loading..." : sslPaymentConfig ? "Credit/Debit Card, bKash, Nagad" : "Currently Unavailable"}
+                                        </span>
+                                    </div>
+                                    <CreditCard className={`ml-auto w-6 h-6 transition-colors ${paymentMethod === "SSL" ? "text-gray-900" : "text-gray-300"}`} />
+                                </label>
                             </div>
                         </div>
 
